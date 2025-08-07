@@ -41,7 +41,7 @@ public:
 
 	const bool IsScore(void)const { return isScorePlus_; }
 
-	void ChangeState(STATE state);
+	virtual void ChangeState(const STATE state);
 	
 	//’e‚ª“–‚½‚Á‚½‚Ìˆ—
 	virtual void Hit(Vector2F mPos);
@@ -62,5 +62,5 @@ protected:
 	float limitTime_;
 	float stepTime_;
 
-
+	
 };

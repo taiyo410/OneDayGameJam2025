@@ -132,4 +132,20 @@ public:
 	static bool IsLenge(const VECTOR& sPos, const VECTOR& ePos, float lenge);
 	static float GetDisPow(const VECTOR& sPos, const VECTOR& ePos);
 
+	/// <summary>
+/// 指定した桁数の数字を返す
+/// </summary>
+/// <param name="_value">桁値を求める値</param>
+/// <param name="_digit">桁数</param>
+/// <returns>桁値</returns>
+	static int GetDigit(const int _value, const int _digit);
+
+
+	/// <summary>
+	/// 桁数を返す
+	/// </summary>
+	/// <param name="_value">桁数を調べる値</param>
+	/// <returns>桁数</returns>
+	static int GetDigitCount(const int _value);
+
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include"../Scene/SelectScene.h"
 class DataBank
 {
@@ -57,10 +58,18 @@ public:
 	/// </summary>
 	/// <param name="_id"></param>
 	void SetSelectId(const SelectScene::SELECT_ID _id);
-
-
-
-
+	
+	/// <summary>
+	/// プレイヤーのスコアの取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
+	std::vector<int>GetPlayerScores(void);
+	/// <summary>
+	/// プレイヤースコアのセット
+	/// </summary>
+	/// <param name="_playerScores"></param>
+	void SetPlayerScores(const std::vector<int>_playerScores);
 private:
 
 
@@ -72,6 +81,7 @@ private:
 	int maxPlayerNum_;	//コントローラー数よりプレイヤー人数が多くならないようにする
 
 	SelectScene::SELECT_ID selectId_;	//選択シーンのID
+	std::vector<int>playerScores_;
 
 };
 

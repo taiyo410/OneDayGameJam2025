@@ -20,14 +20,15 @@ public:
 
 	void Hit(Vector2F mPos)override;
 
-
+	void ChangeState(const STATE _state)override;
 private:
 
 	VECTOR jumpDir_;
 	float jumpStep_;
 
 	VECTOR jumpPow_;
-
+	//—Ž‚¿‚½”»’è
+	bool isFall_;
 	bool OutXline(void);
 };
 

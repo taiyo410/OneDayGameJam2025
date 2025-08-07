@@ -39,69 +39,8 @@ void GameScene::Init(void)
 	backGroundImg_ = res.Load(ResourceManager::SRC::BACKGROUND_TITLE).handleId_;
 	fenceModel_ = MV1LoadModel((Application::PATH_MODEL + "fence.mv1").c_str());
 
+	InitPlayerAndTarget();
 
-	SelectScene::SELECT_ID selectId = DataBank::GetInstance().GetSelectId();
-	float posX = -500.0f;
-	switch (selectId)
-	{
-	case SelectScene::SELECT_ID::NOME:
-		break;
-	case SelectScene::SELECT_ID::MULTI:
-	{
-		//プレイヤー人数の取得
-		int pNum = DataBank::GetInstance().GetPlayerNum();
-		for (int i = 0; i < pNum; i++)
-		{
-			auto player = std::make_unique<Player>(i);
-			player->Init();
-			players_.push_back(std::move(player));
-		}
-		for (int i = 0; i < pNum; i++)
-		{
-			auto target = std::make_unique<CanTarget>();
-			target->Init();
-			target->SetPos({ posX + i * 250.0f, 0.0f,150.0f });
-			targets_.push_back(std::move(target));
-		}
-		modeUpdate_ = std::bind(&GameScene::CanRule, this);
-	}
-		break;
-	case SelectScene::SELECT_ID::ENDLESS:
-		for (int i = 0; i < 1; i++)
-		{
-			auto player = std::make_unique<Player>(i);
-			player->Init();
-			players_.push_back(std::move(player));
-		}
-		
-		for (int i = 0; i < 1; i++)
-		{
-			auto target = std::make_unique<CanTarget>();
-			target->Init();
-			target->SetPos({ posX + i * 250.0f, 0.0f,150.0f });
-			targets_.push_back(std::move(target));
-		}
-		modeUpdate_ = std::bind(&GameScene::CanRule, this);
-		break;
-	case SelectScene::SELECT_ID::PANEL:
-		for (int i = 0; i < 1; i++)
-		{
-			auto player = std::make_unique<Player>(i);
-			player->Init();
-			players_.push_back(std::move(player));
-		}
-		for (int i = 0; i < 5; i++)
-		{
-			auto target = std::make_unique<PanelTarget>();
-			target->Init();
-			target->SetPos({ posX + i * 250.0f, 0.0f,150.0f });
-			targets_.push_back(std::move(target));
-		}
-		modeUpdate_ = std::bind(&GameScene::PannelRule, this);
-		break;
-	default:
-		break;
-	}
 	effec_ = std::make_unique<EffectController>();
 	effec_->Add(0, (Application::PATH_EFFECT + "Hit.efkefc"));
 
@@ -151,6 +90,13 @@ void GameScene::Update(void)
 	{
 		// マウスを表示状態にする
 		SetMouseDispFlag(true);
+		std::vector<int>playersScore;
+		for (auto& player : players_)
+		{
+			int point = player->GetPoint();
+			playersScore.emplace_back(point);
+		}
+		DataBank::GetInstance().SetPlayerScores(playersScore);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::RESULT);
 	}
 
@@ -263,8 +209,7 @@ void GameScene::CanRule()
 
 		for (auto& player : players_)
 		{
-			if (player->IsAttrck() && target->InRange(player->GetReticle())
-				&& (target->IsState(TargetBase::STATE::ALIVE)))
+			if (player->IsAttrck() && target->InRange(player->GetReticle()))
 			{
 				//衝突
 				target->Hit(player->GetReticle());
@@ -281,4 +226,70 @@ void GameScene::CanRule()
 	}
 
 
+}
+
+void GameScene::InitPlayerAndTarget(void)
+{
+	SelectScene::SELECT_ID selectId = DataBank::GetInstance().GetSelectId();
+	float posX = -500.0f;
+	switch (selectId)
+	{
+	case SelectScene::SELECT_ID::NOME:
+		break;
+	case SelectScene::SELECT_ID::MULTI:
+	{
+		//プレイヤー人数の取得
+		int pNum = DataBank::GetInstance().GetPlayerNum();
+		for (int i = 0; i < pNum; i++)
+		{
+			auto player = std::make_unique<Player>(i);
+			player->Init();
+			players_.push_back(std::move(player));
+		}
+		for (int i = 0; i < pNum; i++)
+		{
+			auto target = std::make_unique<CanTarget>();
+			target->Init();
+			target->SetPos({ posX + i * 250.0f, 0.0f,150.0f });
+			targets_.push_back(std::move(target));
+		}
+		modeUpdate_ = std::bind(&GameScene::CanRule, this);
+	}
+	break;
+	case SelectScene::SELECT_ID::ENDLESS:
+		for (int i = 0; i < 1; i++)
+		{
+			auto player = std::make_unique<Player>(i);
+			player->Init();
+			players_.push_back(std::move(player));
+		}
+
+		for (int i = 0; i < 1; i++)
+		{
+			auto target = std::make_unique<CanTarget>();
+			target->Init();
+			target->SetPos({ posX + i * 250.0f, 400.0f,150.0f });
+			targets_.push_back(std::move(target));
+		}
+		modeUpdate_ = std::bind(&GameScene::CanRule, this);
+		break;
+	case SelectScene::SELECT_ID::PANEL:
+		for (int i = 0; i < 1; i++)
+		{
+			auto player = std::make_unique<Player>(i);
+			player->Init();
+			players_.push_back(std::move(player));
+		}
+		for (int i = 0; i < 5; i++)
+		{
+			auto target = std::make_unique<PanelTarget>();
+			target->Init();
+			target->SetPos({ posX + i * 250.0f, 0.0f,150.0f });
+			targets_.push_back(std::move(target));
+		}
+		modeUpdate_ = std::bind(&GameScene::PannelRule, this);
+		break;
+	default:
+		break;
+	}
 }

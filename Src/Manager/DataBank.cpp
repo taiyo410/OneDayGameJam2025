@@ -54,6 +54,16 @@ void DataBank::SetSelectId(const SelectScene::SELECT_ID _id)
 	selectId_ = _id;
 }
 
+std::vector<int> DataBank::GetPlayerScores(void)
+{
+	return playerScores_;
+}
+
+void DataBank::SetPlayerScores(const std::vector<int> _playerScores)
+{
+	playerScores_ = _playerScores;
+}
+
 
 DataBank::DataBank(void)
 {

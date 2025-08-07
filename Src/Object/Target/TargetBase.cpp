@@ -136,7 +136,7 @@ bool TargetBase::InRange(Vector2F mPos)
 		&& end.x >= mPos.x && end.y >= mPos.y);
 }
 
-void TargetBase::ChangeState(STATE state)
+void TargetBase::ChangeState(const STATE state)
 {
 	state_ = state;
 

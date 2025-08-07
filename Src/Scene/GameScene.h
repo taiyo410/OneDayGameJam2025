@@ -45,6 +45,7 @@ private:
 
 	void PannelRule();
 	void CanRule();
+	void InitPlayerAndTarget(void);
 
 };
 

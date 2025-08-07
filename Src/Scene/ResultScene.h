@@ -1,6 +1,6 @@
 #pragma once
 #include "SceneBase.h"
-
+#include<functional>
 class ResultScene :
     public SceneBase
 {
@@ -18,5 +18,15 @@ public:
 	void Draw(void) override;
 	void Release(void) override;
 
+private:
+	void MultiDraw(void);
+	void EndlessDraw(void);
+	void PanelDraw(void);
+
+	int backImg_;
+	int* numbersImg_;
+
+	//Šeƒ‹[ƒ‹‚Ì•`‰æ
+	std::function<void(void)>ruleDraw_;
 };
 

@@ -587,3 +587,35 @@ float AsoUtility::GetDisPow(const VECTOR& sPos, const VECTOR& ePos)
 
     return disPow;
 }
+
+int AsoUtility::GetDigit(const int _value, const int _digit)
+{
+    //負の値にも対応するため絶対値を取る
+    int ret = (_value < 0) ? -_value : _value;
+
+    //10のdigit乗で割って1の位を抽出
+    for (int i = 0; i < _digit; ++i)
+    {
+        ret /= 10;
+    }
+
+    return ret % 10;
+}
+
+int AsoUtility::GetDigitCount(const int _value)
+{
+    // 0 の桁数は 1
+    if (_value == 0) return 1;
+
+    // マイナス値は絶対値に変換
+    int ret = std::abs(_value);
+
+    int digit = 0;
+    while (ret > 0)
+    {
+        ret /= 10;
+        ++digit;
+    }
+
+    return digit;
+}

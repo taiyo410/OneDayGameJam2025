@@ -74,11 +74,11 @@ void CanTarget::Update(void)
 	if (trans_.pos.y < 0.0f)
 	{
 		trans_.pos.y = 0.0f;
+		ChangeState(TargetBase::STATE::DEATH);
 	}
 	if (trans_.pos.x < -600.0f)
 	{
 		trans_.pos.x = -600.0f;
-
 	}
 	if (trans_.pos.x > 600.0f)
 	{
@@ -137,4 +137,24 @@ bool CanTarget::OutXline(void)
 	}
 
 	return false;
+}
+
+void CanTarget::ChangeState(const STATE _state)
+{
+	if (state_ == _state)return;
+	state_ = _state;
+	switch (state_)
+	{
+	case TargetBase::STATE::POP_UP:
+		break;
+	case TargetBase::STATE::POP_DOWN:
+		break;
+	case TargetBase::STATE::ALIVE:
+		break;
+	case TargetBase::STATE::DEATH:
+		isScorePlus_ = false;
+		break;
+	default:
+		break;
+	}
 }
