@@ -119,11 +119,11 @@ void Camera::ChangeMode(MODE mode)
 	{
 	case Camera::MODE::FIXED_POINT:
 		// カメラ位置：原点から少し離れたところに置く（例：斜め上から）
-		pos_ = VGet(0.0f, 250.0f, -550.0f);
+		pos_ = VGet(0.0f, 200.0f, -550.0f);
 
 		// 注視点：原点（{0,0,0}）
 		targetPos_ = AsoUtility::VECTOR_ZERO;
-		targetPos_.y = 100.0f;
+		targetPos_.y = 300.0f;
 
 		// 上方向（Y軸）
 		cameraUp_ = AsoUtility::DIR_U;

@@ -30,18 +30,20 @@ public:
 	virtual void Draw(void)override;
 	void DebugDraw(void);
 
-	void SetPos(VECTOR pos);
-
 	virtual void Release(void);
 
-	bool InRange(Vector2 mPos);
-	const bool IsState(STATE state)const { return state_ == state; }
+	void SetPos(const VECTOR pos);
+
+	bool InRange(const Vector2 mPos);
+	const bool IsState(const STATE state)const { return state_ == state; }
 
 	void ChangeState(STATE state);
 
-private:
+	void CharChange();
 
-	
+protected:
+
+	Vector2 size_;	
 
 	STATE state_;
 

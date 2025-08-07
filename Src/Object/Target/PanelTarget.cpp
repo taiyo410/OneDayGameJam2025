@@ -1,31 +1,72 @@
 #include "PanelTarget.h"
-/////今回回転させたい回転量をクォータニオンで作る
-//Quaternion rotPow = Quaternion();
-//
-//int rot = 0;
-//if (goalRot_ == 90.0f)
-//{
-//	rot = 10;
-//	rotPow = rotPow.Mult(
-//		Quaternion::AngleAxis(
-//			AsoUtility::Deg2RadF(AsoUtility::Deg2RadF(rot)), AsoUtility::AXIS_X
-//		));
-//}
-//else if (goalRot_ == 0.0f)
-//{
-//	rot = -10;
-//	rotPow = rotPow.Mult(
-//		Quaternion::AngleAxis(
-//			AsoUtility::Deg2RadF(AsoUtility::Deg2RadF(rot)), AsoUtility::AXIS_X
-//		));
-//}
-//
-//mRot_ += AsoUtility::Deg2RadF(rot);
-//if (mRot_ >= 90.0f && goalRot_ == 90.0f)
-//{
-//	goalRot_ = 0.0f;
-//}
-//if (mRot_ <= 0.0f && goalRot_ == 0.0f)
-//{
-//	goalRot_ = 90.0f;
-//}
+#include "../../Application.h"
+#include "../../Utility/AsoUtility.h"
+#include "../../Manager/SceneManager.h"
+
+PanelTarget::PanelTarget(void)
+{
+}
+
+PanelTarget::~PanelTarget(void)
+{
+}
+
+void PanelTarget::Init(void)
+{
+	// モデルの基本設定
+	int i = rand() % 2;
+
+	if (i == 0) {
+		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Enemy/enemy.mv1").c_str());
+	}
+	else {
+		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Friend/friend.mv1").c_str());
+	}
+	trans_.scl = AsoUtility::VECTOR_ONE;
+	// 初期座標
+	trans_.pos = { 0.0f,0.0f,0.0f };
+	trans_.quaRot =
+		Quaternion::Euler({ AsoUtility::Deg2RadF(90.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
+	trans_.quaRotLocal =
+		Quaternion::Euler({ AsoUtility::Deg2RadF(0.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
+	trans_.Update();
+
+	ChangeState(STATE::POP_UP);
+
+	size_ = Vector2(180, 300);
+}
+
+void PanelTarget::Update(void)
+{
+	// 回転の球面補間
+	stepTime_ -= scnMng_.GetDeltaTime();
+
+	trans_.quaRot = Quaternion::Slerp(
+		trans_.quaRot, goalQua_, (limitTime_ - stepTime_) / limitTime_);
+
+	if (stepTime_ < 0.0f)
+	{
+		switch (state_)
+		{
+		case STATE::POP_UP:
+			ChangeState(STATE::ALIVE);
+			break;
+		case STATE::POP_DOWN:
+			ChangeState(STATE::DEATH);
+			break;
+		case STATE::ALIVE:
+			ChangeState(STATE::POP_DOWN);
+			break;
+		case STATE::DEATH:
+			ChangeState(STATE::POP_UP);
+			break;
+		}
+	}
+
+	trans_.Update();
+}
+
+void PanelTarget::Draw(void)
+{
+	MV1DrawModel(trans_.modelId);
+}

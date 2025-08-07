@@ -25,6 +25,9 @@ public:
 
 private:
 
+	//îwåi
+	int fenceModel_;
+	int backGroundImg_;
 
 	std::unique_ptr<Player> player_;
 	std::function<void(void)> modeUpdate_;
