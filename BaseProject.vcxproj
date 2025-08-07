@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Common\Quaternion.cpp" />
+    <ClCompile Include="Src\Common\Vector2.cpp" />
+    <ClCompile Include="Src\Common\Vector2F.cpp" />
+    <ClCompile Include="Src\Manager\InputManager.cpp" />
     <ClCompile Include="Src\Scene\ResultScene.cpp" />
     <ClCompile Include="Src\Scene\GameScene.cpp" />
     <ClCompile Include="Src\Common\Fader.cpp" />
@@ -27,8 +31,13 @@
     <ClCompile Include="Src\Application.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\Scene\TitleScene.cpp" />
+    <ClCompile Include="Src\Utility\AsoUtility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Common\Quaternion.h" />
+    <ClInclude Include="Src\Common\Vector2.h" />
+    <ClInclude Include="Src\Common\Vector2F.h" />
+    <ClInclude Include="Src\Manager\InputManager.h" />
     <ClInclude Include="Src\Scene\ResultScene.h" />
     <ClInclude Include="Src\Scene\GameScene.h" />
     <ClInclude Include="Src\Common\Fader.h" />
@@ -37,6 +46,7 @@
     <ClInclude Include="Src\Application.h" />
     <ClInclude Include="Src\main.h" />
     <ClInclude Include="Src\Scene\TitleScene.h" />
+    <ClInclude Include="Src\Utility\AsoUtility.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

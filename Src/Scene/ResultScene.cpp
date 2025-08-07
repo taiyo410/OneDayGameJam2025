@@ -1,6 +1,7 @@
 #include <DxLib.h>
 
 #include "../Manager/SceneManager.h"
+#include "../Manager/InputManager.h"
 
 #include "ResultScene.h"
 
@@ -18,9 +19,10 @@ void ResultScene::Init(void)
 
 void ResultScene::Update(void)
 {
-
-	SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
-
+	if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_SPACE))
+	{
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
+	}
 }
 
 void ResultScene::Draw(void)

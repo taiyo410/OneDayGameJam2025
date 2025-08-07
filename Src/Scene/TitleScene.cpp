@@ -1,6 +1,7 @@
 #include <DxLib.h>
 
 #include "../Manager/SceneManager.h"
+#include "../Manager/InputManager.h"
 
 #include "TitleScene.h"
 
@@ -18,9 +19,10 @@ void TitleScene::Init(void)
 
 void TitleScene::Update(void)
 {
-
-	SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME);
-
+	if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_SPACE))
+	{
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME);
+	}
 }
 
 void TitleScene::Draw(void)

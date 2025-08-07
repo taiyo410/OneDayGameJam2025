@@ -2,6 +2,7 @@
 #include <EffekseerForDXLib.h>
 
 #include "Manager/SceneManager.h"
+#include "Manager/InputManager.h"
 
 #include "Application.h"
 
@@ -51,6 +52,7 @@ void Application::Init(void)
 	SetUseDirectInputFlag(true);
 
 	SceneManager::CreateInstance();
+	InputManager::CreateInstance();
 
 }
 
@@ -61,6 +63,8 @@ void Application::Run(void)
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
 
+
+		InputManager::GetInstance().Update();
 
 		SceneManager::GetInstance().Update();
 		SceneManager::GetInstance().Draw();
@@ -87,6 +91,7 @@ void Application::Destroy(void)
 	}
 
 	SceneManager::GetInstance().Destroy();
+	InputManager::GetInstance().Destroy();
 
 	delete instance_;
 
