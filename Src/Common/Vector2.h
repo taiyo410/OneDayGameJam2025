@@ -20,5 +20,7 @@ public:
 	// Vector2F ‚Ö•ÏŠ·
 	Vector2F ToVector2F(void);
 
+
+
 };
 
