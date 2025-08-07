@@ -58,6 +58,8 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::SELECT_MELTI, std::move(res));
 	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "BackSelect.png");
 	resourcesMap_.emplace(SRC::BACKSELECT, std::move(res));
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "SelectPanel.png");
+	resourcesMap_.emplace(SRC::SELECT_PANEL, std::move(res));
 }
 
 void ResourceManager::SceneChangeRelease(void)
