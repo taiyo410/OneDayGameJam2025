@@ -6,6 +6,8 @@
 class Player;
 class TargetBase;
 
+class EffectController;
+
 class GameScene :
     public SceneBase
 {
@@ -25,12 +27,16 @@ public:
 
 private:
 
+	//îwåi
+	int fenceModel_;
+	int backGroundImg_;
 
 	std::unique_ptr<Player> player_;
 	std::function<void(void)> modeUpdate_;
 
 	std::vector<std::unique_ptr<TargetBase>> targets_;
 
+	std::unique_ptr<EffectController> effec_;
 
 	void PannelRule();
 	void CanRule();

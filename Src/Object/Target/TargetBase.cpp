@@ -4,11 +4,14 @@
 #include "../../Manager/SceneManager.h"
 #include "../../Manager/Camera.h"
 
-
 #include "TargetBase.h"
 
 TargetBase::TargetBase(void)
 {
+	state_ = STATE::POP_UP;
+
+	limitTime_ = 0.0f;
+	stepTime_ = 0.0f;
 }
 
 TargetBase::~TargetBase(void)
@@ -23,7 +26,14 @@ void TargetBase::Load(void)
 void TargetBase::Init(void)
 {
 	// モデルの基本設定
-	trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Enemy/enemy.mv1").c_str());
+	int i = rand() % 2;
+
+	if (i == 0){
+		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Enemy/enemy.mv1").c_str());
+	}
+	else{
+		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Friend/friend.mv1").c_str());
+	}
 	trans_.scl = AsoUtility::VECTOR_ONE;
 	// 初期座標
 	trans_.pos = { 0.0f,0.0f,0.0f };
@@ -34,6 +44,8 @@ void TargetBase::Init(void)
 	trans_.Update();
 
 	ChangeState(STATE::POP_UP);
+
+	size_=Vector2(180,300);
 }
 
 void TargetBase::Update(void)
@@ -57,7 +69,7 @@ void TargetBase::Update(void)
 			ChangeState(STATE::DEATH);		
 			break;
 		case STATE::ALIVE:
-	
+			ChangeState(STATE::POP_DOWN);
 			break;
 		case STATE::DEATH:
 			ChangeState(STATE::POP_UP);
@@ -73,8 +85,8 @@ void TargetBase::Draw(void)
 	MV1DrawModel(trans_.modelId);
 
 	VECTOR twoDPos = ConvWorldPosToScreenPos(trans_.pos);
-	Vector2 start = Vector2(twoDPos.x - 30, twoDPos.y - 50);
-	Vector2 end = Vector2(twoDPos.x + 30, twoDPos.y + 50);
+	Vector2 start = Vector2(twoDPos.x - size_.x/2, twoDPos.y - size_.y);
+	Vector2 end = Vector2(twoDPos.x + size_.x / 2, twoDPos.y);
 
 	DrawBox(start.x, start.y, end.x, end.y, 0xff0000, false);
 
@@ -87,22 +99,23 @@ void TargetBase::Draw(void)
 
 void TargetBase::DebugDraw(void)
 {
+	/*
 	VECTOR twoDPos = ConvWorldPosToScreenPos(trans_.pos);
-	Vector2 start = Vector2(twoDPos.x - 30, twoDPos.y - 50);
-	Vector2 end = Vector2(twoDPos.x + 30, twoDPos.y + 50);
+	Vector2 start = Vector2(twoDPos.x - size_.x / 2, twoDPos.y - size_.y);
+	Vector2 end = Vector2(twoDPos.x + size_.x / 2, twoDPos.y );
 
 	DrawBox(start.x, start.y, end.x, end.y, 0xff0000, true);
-	DrawCircle(twoDPos.x, twoDPos.y, 10, 0x00ff00);
-}
-
-void TargetBase::SetPos(VECTOR pos)
-{
-	trans_.pos = pos;
-	trans_.Update();
+	DrawCircle(twoDPos.x, twoDPos.y, 10, 0x00ff00);*/
 }
 
 void TargetBase::Release(void)
 {
+}
+
+void TargetBase::SetPos(const VECTOR pos)
+{
+	trans_.pos = pos;
+	trans_.Update();
 }
 
 bool TargetBase::InRange(Vector2F mPos)
@@ -111,8 +124,8 @@ bool TargetBase::InRange(Vector2F mPos)
 	SceneManager::GetInstance().GetCamera().lock()->SetBeforeDraw();
 
 	VECTOR twoDPos = ConvWorldPosToScreenPos(trans_.pos);
-	Vector2 start = Vector2(twoDPos.x - 30, twoDPos.y - 50);
-	Vector2 end = Vector2(twoDPos.x + 30, twoDPos.y + 50);
+	Vector2 start = Vector2(twoDPos.x - size_.x / 2, twoDPos.y - size_.y);
+	Vector2 end = Vector2(twoDPos.x + size_.x / 2, twoDPos.y);
 
 
 	return (start.x <= mPos.x && start.y <= mPos.y
@@ -127,6 +140,8 @@ void TargetBase::ChangeState(STATE state)
 	{
 	case STATE::POP_UP:
 
+		trans_.quaRot =
+			Quaternion::Euler({ AsoUtility::Deg2RadF(90.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
 		goalQua_ =
 			Quaternion::Euler({ AsoUtility::Deg2RadF(0.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
 		limitTime_ = 1.0f;//完了までの時間
@@ -143,12 +158,33 @@ void TargetBase::ChangeState(STATE state)
 			break;
 	case STATE::ALIVE:
 
-		
+		//待機時間
+		stepTime_ = 1.5f;
+
 			break;
 	case STATE::DEATH:
 
-		
+		//待機時間
+		stepTime_ = 3.5f;
+
 			break;
 	}
 
+}
+
+void TargetBase::CharChange()
+{
+	int i = rand() % 2;
+
+	MV1DeleteModel(trans_.modelId);
+
+	if (i==0)
+	{
+		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Enemy/enemy.mv1").c_str());
+	}
+	else
+	{
+		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Friend/friend.mv1").c_str());
+	}
+	trans_.Update();
 }
