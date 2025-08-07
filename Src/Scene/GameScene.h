@@ -31,7 +31,7 @@ private:
 	int fenceModel_;
 	int backGroundImg_;
 
-	std::unique_ptr<Player> player_;
+	std::vector<std::unique_ptr<Player>> players_;
 	std::function<void(void)> modeUpdate_;
 
 	std::vector<std::unique_ptr<TargetBase>> targets_;

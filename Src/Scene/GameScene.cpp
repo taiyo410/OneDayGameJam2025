@@ -36,11 +36,15 @@ void GameScene::Init(void)
 	backGroundImg_ = res.Load(ResourceManager::SRC::BACKGROUND_TITLE).handleId_;
 	fenceModel_ = MV1LoadModel((Application::PATH_MODEL + "fence.mv1").c_str());
 
-	player_ = std::make_unique<Player>();
-	player_->Init();
+	for (int i = 0; i < 1; i++)
+	{
+		auto player = std::make_unique<Player>();
+		player->Init();
+		players_.push_back(std::move(player));
+	}
 
 	effec_ = std::make_unique<EffectController>();
-
+	effec_->Add(0, (Application::PATH_EFFECT + "Hit.efkefc"));
 
 	float posX = -500.0f;
 	for (int i = 0; i < 5; i++)
@@ -51,7 +55,7 @@ void GameScene::Init(void)
 		targets_.push_back(std::move(target));
 	}
 
-	// マウスを表示状態にする
+	// マウスを非表示状態にする
 	SetMouseDispFlag(false);
 
 	modeUpdate_ = std::bind(&GameScene::PannelRule, this);
@@ -59,9 +63,9 @@ void GameScene::Init(void)
 
 void GameScene::Update(void)
 {
+	effec_->Update(0);
 
-
-	PannelRule();
+	modeUpdate_();
 
 
 #ifdef _DEBUG
@@ -91,19 +95,16 @@ void GameScene::Draw(void)
 
 	MV1DrawModel(fenceModel_);
 
-	player_->Draw();
+	for (auto& player : players_)
+	{
+		player->Draw();
+	}
 
 	DrawLine(Application::SCREEN_SIZE_X / 2, 0, Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y, 0x00ff00);
 
 	DrawSphere3D({ 0,0,0 }, 10, 10, 0xff0000, 0xff0000, false);
 
-	for (auto& target : targets_)
-	{
-		if (target->InRange(player_->GetReticle()))
-		{
-			target->DebugDraw();
-		}
-	}
+	
 }
 
 void GameScene::Release(void)
@@ -116,8 +117,10 @@ void GameScene::PannelRule()
 	auto& ins = InputManager::GetInstance();
 	Vector2 moPos = ins.GetMousePos();
 
-	player_->Update();
-
+	for (auto& player : players_)
+	{
+		player->Update();
+	}
 
 
 	bool isWipeOut = true;
@@ -132,11 +135,15 @@ void GameScene::PannelRule()
 			isWipeOut = false;
 		}
 
-		if (player_->IsAttrck() && target->InRange(player_->GetReticle())
-			&& (target->IsState(TargetBase::STATE::ALIVE) || target->IsState(TargetBase::STATE::POP_UP)))
+		for (auto& player : players_)
 		{
-			//衝突
-			target->ChangeState(TargetBase::STATE::POP_DOWN);
+			if (player->IsAttrck() && target->InRange(player->GetReticle())
+				&& (target->IsState(TargetBase::STATE::ALIVE) || target->IsState(TargetBase::STATE::POP_UP)))
+			{
+				//衝突
+				target->ChangeState(TargetBase::STATE::POP_DOWN);
+				effec_->Play(0, { player->GetReticle().x,player->GetReticle().y,0 });
+			}
 		}
 	}
 

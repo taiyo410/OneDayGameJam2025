@@ -40,6 +40,8 @@ public:
 	void Update(int type, const VECTOR pos, VECTOR rot = { 0.0f,0.0f,0.0f }, float scale = 1.0f);
 	void Update(int type = -1);
 
+	void Draw(int type, const VECTOR pos);
+
 private:
 
 
