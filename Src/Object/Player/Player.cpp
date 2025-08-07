@@ -40,6 +40,7 @@ void Player::Update(void)
 	typeUpdate_();
 
 
+
 	agoMousePos_ = moPos;
 }
 
@@ -60,12 +61,14 @@ void Player::Release(void)
 //マウスかコントローラーの更新
 void Player::UpdateMouse(void)
 {
-
 	auto& ins = InputManager::GetInstance();
 	Vector2 moPos = ins.GetMousePos();
 
 	InputManager::JOYPAD_NO jno = static_cast<InputManager::JOYPAD_NO>(DX_INPUT_PAD1);
 
+	//移動前のレティクル位置を保存
+	reticlePrePos_ = reticlePos_;
+	
 	// 左スティックの横軸取得
 	const auto& leftStickX = ins.GetJPadInputState(jno).AKeyLX;
 	// 左スティックの縦軸取得
@@ -78,9 +81,9 @@ void Player::UpdateMouse(void)
 		typeUpdate_ = std::bind(&Player::UpdateController, this);
 		return;
 	}
-
+	
 	reticlePos_ = moPos;
-
+	MoveReticle();
 	//攻撃
 	if (ins.IsClickMouseLeft())
 	{
@@ -94,7 +97,6 @@ void Player::UpdateMouse(void)
 }
 void Player::UpdateController(void)
 {
-
 	auto& ins = InputManager::GetInstance();
 	Vector2 moPos = ins.GetMousePos();
 
@@ -104,7 +106,8 @@ void Player::UpdateController(void)
 		typeUpdate_ = std::bind(&Player::UpdateMouse, this);
 		return;
 	}
-
+	//移動前のレティクル位置を保存
+	reticlePrePos_ = reticlePos_;
 	MoveReticle();
 	InputManager::JOYPAD_NO jno = static_cast<InputManager::JOYPAD_NO>(DX_INPUT_PAD1);
 
@@ -117,7 +120,6 @@ void Player::UpdateController(void)
 	{
 		isAttrck_ = false;
 	}
-
 }
 
 void Player::MoveReticle(void)
@@ -125,19 +127,14 @@ void Player::MoveReticle(void)
 	//パッドの状態取得
 	int padState = GetJoypadInputState(DX_INPUT_PAD1);
 	InputManager::JOYPAD_NO jno = static_cast<InputManager::JOYPAD_NO>(DX_INPUT_PAD1);
-
 	// 左スティックの横軸取得
 	const auto& leftStickX = InputManager::GetInstance().GetJPadInputState(jno).AKeyLX;
 	// 左スティックの縦軸取得
 	const auto& leftStickY = InputManager::GetInstance().GetJPadInputState(jno).AKeyLY;
-
-	static const int DEAD_ZONE = 200; // デッドゾーンの閾値
-
+	VECTOR norm = AsoUtility::Normalize({ leftStickX,leftStickY });
 	Vector2F moveDir = { 0,0 };
-	if (leftStickX <= -DEAD_ZONE || leftStickX >= DEAD_ZONE
-		|| leftStickY <= -DEAD_ZONE || leftStickY >= DEAD_ZONE)
+	if (IsMoveableReticle())
 	{
-		VECTOR norm = AsoUtility::Normalize({ leftStickX,leftStickY });
 		moveDir = { norm.x,norm.y };
 		float movePow = 10.0f;
 		if (InputManager::GetInstance().IsPadBtnNew(jno, InputManager::JOYPAD_BTN::R_BTN))
@@ -146,7 +143,36 @@ void Player::MoveReticle(void)
 		}
 		moveDir *= movePow;
 	}
-
+	else
+	{
+		moveDir *= -1.0f; // 移動不可なら移動方向を反転
+	}
+	
 	reticlePos_.x += moveDir.x;
 	reticlePos_.y += moveDir.y;
+
+	LimitReticle();
+}
+
+void Player::LimitReticle(void)
+{
+	if (reticlePos_.x < RETICLE_HALF_SIZE|| reticlePos_.x > Application::SCREEN_SIZE_X-RETICLE_HALF_SIZE
+		||reticlePos_.y< RETICLE_HALF_SIZE|| reticlePos_.y > Application::SCREEN_SIZE_Y - RETICLE_HALF_SIZE)
+	{
+		reticlePos_=reticlePrePos_;
+	}
+}
+
+bool Player::IsMoveableReticle(void) const
+{
+	InputManager::JOYPAD_NO jno = static_cast<InputManager::JOYPAD_NO>(DX_INPUT_PAD1);
+	// 左スティックの横軸取得
+	const auto& leftStickX = InputManager::GetInstance().GetJPadInputState(jno).AKeyLX;
+	// 左スティックの縦軸取得
+	const auto& leftStickY = InputManager::GetInstance().GetJPadInputState(jno).AKeyLY;
+
+	static const int DEAD_ZONE = 200; // デッドゾーンの閾値
+
+	return (leftStickX <= -DEAD_ZONE || leftStickX >= DEAD_ZONE
+		|| leftStickY <= -DEAD_ZONE || leftStickY >= DEAD_ZONE);
 }
