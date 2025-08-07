@@ -50,8 +50,12 @@ void ResourceManager::Init(void)
 	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_OBJ + "Button.png");
 	resourcesMap_.emplace(SRC::PUSH_BUTTON, std::move(res));
 
+
+	//セレクトシーン画像
 	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "select.png");
 	resourcesMap_.emplace(SRC::SELECTIMG, std::move(res));
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "BackSelect.png");
+	resourcesMap_.emplace(SRC::BACKSELECT, std::move(res));
 }
 
 void ResourceManager::SceneChangeRelease(void)

@@ -14,8 +14,10 @@ SelecteScene::~SelecteScene(void)
 
 void SelecteScene::Init(void)
 {
-	backimg_ = LoadGraph((Application::PATH_IMAGE + "BackGround.png").c_str());
-	img_ = LoadGraph((Application::PATH_IMAGE + "select.png").c_str());
+	//リソースマネージャのインスタンス 
+	ResourceManager& res = ResourceManager::GetInstance();
+	backimg_ = res.Load(ResourceManager::SRC::BACKSELECT).handleId_;
+	img_ = res.Load(ResourceManager::SRC::SELECTIMG).handleId_;
 }
 
 void SelecteScene::Update(void)
@@ -24,9 +26,24 @@ void SelecteScene::Update(void)
 
 void SelecteScene::Draw(void)
 {
-	Vector2 boxPos1 = { Application::SCREEN_SIZE_X / 2 - 50, Application::SCREEN_SIZE_Y / 2 - 20 };
-	Vector2 boxPos2 = { Application::SCREEN_SIZE_X / 2 + 50, Application::SCREEN_SIZE_Y / 2 + 20 };
-	DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 1.0f, 0.0f, backimg_, true);
+	
+	//画面中心座標
+	Vector2 basePos = { Application::SCREEN_SIZE_X / 2 ,Application::SCREEN_SIZE_Y / 2 };
+
+	//box補正値
+	int boxX = 50;
+	int boxY = 20;
+
+	/*ボックス座標*/
+	//左
+	Vector2 boxPos1 = { basePos.x - boxX, basePos.y - boxY };
+	//右
+	Vector2 boxPos2 = { basePos.x + boxX, basePos.y + boxY };
+
+	//ボードの描画
+	DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 1.15f, 0.0f, backimg_, true);
+
+	//選択
 	DrawBox(
 		boxPos1.x,
 		boxPos1.y,
@@ -34,10 +51,12 @@ void SelecteScene::Draw(void)
 		boxPos2.y,
 		GetColor(255, 255, 255),
 		true);
-	DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.1f, 0.0f, img_, true);
+
+	DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.25f, 0.0f, img_, true);
 }
 
 void SelecteScene::Release(void)
 {
+	DeleteGraph(backimg_);
 	DeleteGraph(img_);
 }

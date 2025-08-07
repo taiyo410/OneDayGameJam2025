@@ -28,6 +28,9 @@ public:
 		BACKGROUND_TITLE,
 		PUSH_BUTTON,
 		BOX,
+
+		//セレクトシーン画像
+		BACKSELECT,
 		SELECTIMG,
 	};
 
