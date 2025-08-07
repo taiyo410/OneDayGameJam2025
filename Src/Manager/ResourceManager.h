@@ -23,6 +23,8 @@ public:
 		NONE,
 		CROSSHAIR,
 		PRINCESS,
+		BANDIT,
+		BACKGROUND_TITLE,
 	};
 
 	/// <summary>

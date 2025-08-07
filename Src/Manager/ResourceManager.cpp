@@ -34,6 +34,12 @@ void ResourceManager::Init(void)
 
 	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_OBJ+"Princess.png");
 	resourcesMap_.emplace(SRC::PRINCESS, std::move(res));
+
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_OBJ + "BanDit.png");
+	resourcesMap_.emplace(SRC::BANDIT, std::move(res));
+
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "BackGround.png");
+	resourcesMap_.emplace(SRC::BACKGROUND_TITLE, std::move(res));
 }
 
 void ResourceManager::SceneChangeRelease(void)

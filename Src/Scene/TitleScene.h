@@ -7,6 +7,19 @@ class TitleScene :
 {
 
 public:
+	
+	//お姫様関連
+	static constexpr int PRINCESS_POS_X = 100;
+	static constexpr int PRINCESS_POS_Y = 170;
+	static constexpr float PRINCESS_ANGLE = 1.0f;
+	static constexpr float PRINCESS_RATE = 0.5f;
+
+	//盗賊関連
+	static constexpr float BANDIT_RATE = 0.5f;
+	static constexpr float BANDIT_ANGLE = -0.8f;
+	static constexpr int BANDIT_POS_X = 950;
+	static constexpr int BANDIT_POS_Y = 170;
+
 
 	// コンストラクタ
 	TitleScene(void);
@@ -19,8 +32,7 @@ public:
 	void Draw(void) override;
 	void Release(void) override;
 
-	//画像の中心座標を取得する関数
-	void GetCenterPos(int CenterPosX, int CenterPosY);
+	
 
 private:
 
@@ -33,9 +45,9 @@ private:
 	Vector2 princessPos_;
 
 	//盗賊関連
-	int banBitIng_;
+	int banDitImg_;
 	//初期座標
-	Vector2 banBitPos_;
+	Vector2 banDitPos_;
 
 
 };
