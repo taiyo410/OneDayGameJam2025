@@ -19,6 +19,9 @@ GameScene::~GameScene(void)
 void GameScene::Init(void)
 {
 	reticleHndle_ = LoadGraph((Application::PATH_IMAGE + "crosshair184.png").c_str());
+
+	// マウスを表示状態にする
+	SetMouseDispFlag(false);
 }
 
 void GameScene::Update(void)
@@ -30,6 +33,8 @@ void GameScene::Update(void)
 
 	if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_SPACE))
 	{
+		// マウスを非表示状態にする
+		SetMouseDispFlag(true);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::RESULT);
 	}
 }
@@ -42,7 +47,7 @@ void GameScene::Draw(void)
 	Vector2 moPos = ins.GetMousePos();
 
 
-	DrawRotaGraph(moPos.x, moPos.y, 1.0f, 1.0f, reticleHndle_, false);
+	DrawRotaGraph(moPos.x, moPos.y, 1.0f, 0.0f, reticleHndle_, true);
 
 }
 
