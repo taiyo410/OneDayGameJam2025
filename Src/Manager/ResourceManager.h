@@ -36,6 +36,7 @@ public:
 		SELECT_PANEL,
 
 		NUMBER_IMG,
+		PLAYER_SELECT_NUM_IMG,
 
 
 	};
@@ -73,6 +74,12 @@ public:
 	int LoadModelDuplicate(SRC src);
 
 private:
+	//ナンバー画像分割数X
+	static constexpr int NUMBERS_DIV_X = 5;
+	//ナンバー画像分割数Y
+	static constexpr int NUMBERS_DIV_Y = 2;
+	//ナンバーの各画像サイズ
+	static constexpr int NUMBERS_SIZE = 128;
 
 	// デフォルトコンストラクタをprivateにして、
 // 外部から生成できない様にする

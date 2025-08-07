@@ -30,7 +30,11 @@ public:
 	const SELECT_ID GetSelectId(void) { return selectId_; }
 
 private:
-	static constexpr int PLAYER_MAX = 4; //プレイヤー最大人数
+	//プレイヤー最大人数
+	static constexpr int PLAYER_MAX = 4; 
+
+	//プレイヤー人数最小人数
+	static constexpr int PLAYER_MIN = 2;
 	//セレクト
 	SELECT_ID selectId_;
 
@@ -47,7 +51,11 @@ private:
 	int princessImg_;
 	int panelImg_;
 	int banDitImg_;
+
+	//プレイヤー人数
 	int* numbersImg_;
+	//プレイヤーを選んでねの画像
+	int selectPlayerImg_;
 
 	float multiImgScl_;
 	float endlessImgScl_;

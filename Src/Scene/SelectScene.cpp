@@ -35,7 +35,9 @@ void SelectScene::Init(void)
 	princessImg_ = res.Load(ResourceManager::SRC::PRINCESS).handleId_;
 	banDitImg_ = res.Load(ResourceManager::SRC::BANDIT).handleId_;
 	panelImg_ = res.Load(ResourceManager::SRC::SELECT_PANEL).handleId_;
-	playerNum_ = 1;
+	numbersImg_ = res.Load(ResourceManager::SRC::NUMBER_IMG).handleIds_;
+	selectPlayerImg_ = res.Load(ResourceManager::SRC::PLAYER_SELECT_NUM_IMG).handleId_;
+	playerNum_ = PLAYER_MIN;
 	sclTime_ = 0.0f;
 	isMultiSelect_ = false;
 	selectId_ = SELECT_ID::MULTI;
@@ -63,7 +65,7 @@ void SelectScene::Update(void)
 	{
 		if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_LEFT))
 		{
-			if(playerNum_ > 1)
+			if(playerNum_ > PLAYER_MIN)
 			{
 				playerNum_--;
 			}
@@ -80,7 +82,7 @@ void SelectScene::Update(void)
 			}
 			else if (playerNum_ == PLAYER_MAX)
 			{
-				playerNum_ = 1;
+				playerNum_ = PLAYER_MIN;
 			}
 		}
 		if(InputManager::GetInstance().IsTrgDown(KEY_INPUT_SPACE))
@@ -149,10 +151,28 @@ void SelectScene::Draw(void)
 		DrawRotaGraph(basePos.x, basePos.y, endlessImgScl_, 0.0f, endlessImg_, true);
 		DrawRotaGraph(basePos.x, basePos.y + 170, panelImgScl_, 0.0f, panelImg_, true);
 	}
+	else
+	{
+		DrawRotaGraph(
+			Application::SCREEN_SIZE_X/2,
+			Application::SCREEN_SIZE_Y/2,
+			2.0f,
+			0.0f,
+			numbersImg_[playerNum_],
+			true,
+			false
+		);
 
-
-	DrawRotaGraph(basePos.x - 375, basePos.y, 0.4, -0.25f, princessImg_, true);
-	DrawRotaGraph(basePos.x + 375, basePos.y, 0.4, 0.25f, banDitImg_, true);
+		DrawRotaGraph(
+			Application::SCREEN_SIZE_X / 2,
+			100,
+			1.0f,
+			0.0f,
+			selectPlayerImg_,
+			true,
+			false
+		);
+	}
 
 
 	if (isMultiSelect_)

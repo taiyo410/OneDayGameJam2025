@@ -50,7 +50,10 @@ void ResourceManager::Init(void)
 	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_OBJ + "Button.png");
 	resourcesMap_.emplace(SRC::PUSH_BUTTON, std::move(res));
 
-	res = std::make_unique<Resource>(Resource::TYPE::IMGS, PATH_OBJ + "Numbers.png");
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "Player_Select.png");
+	resourcesMap_.emplace(SRC::PLAYER_SELECT_NUM_IMG, std::move(res));
+
+	res = std::make_unique<Resource>(Resource::TYPE::IMGS, PATH_IMG + "Numbers.png",NUMBERS_DIV_X,NUMBERS_DIV_Y,NUMBERS_SIZE, NUMBERS_SIZE);
 	resourcesMap_.emplace(SRC::NUMBER_IMG, std::move(res));
 
 
