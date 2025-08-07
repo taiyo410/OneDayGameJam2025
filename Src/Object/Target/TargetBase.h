@@ -20,8 +20,11 @@ public:
 protected:
 	enum class STATE
 	{
-		NONE
+		ALIVE
+		,DEATH
 	};
+
+	STATE state_;
 private:
 
 };
