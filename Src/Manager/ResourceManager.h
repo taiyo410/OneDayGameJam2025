@@ -22,6 +22,7 @@ public:
 	{
 		NONE,
 		CROSSHAIR,
+		PRINCESS,
 	};
 
 	/// <summary>
