@@ -61,7 +61,7 @@ void GameScene::Update(void)
 		if (player_->IsAttrck() && target->InRange(player_->GetReticle()))
 		{
 			//Õ“Ë
-			int x = 0;
+			target->ChangeState(TargetBase::STATE::POP_DOWN);
 
 		}
 	}
@@ -91,6 +91,8 @@ void GameScene::Draw(void)
 	DrawLine(Application::SCREEN_SIZE_X / 2, 0, Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y, 0x00ff00);
 
 	DrawSphere3D({ 0,0,0 }, 10, 10, 0xff0000, 0xff0000, false);
+
+
 }
 
 void GameScene::Release(void)

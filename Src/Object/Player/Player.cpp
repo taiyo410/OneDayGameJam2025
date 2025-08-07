@@ -27,7 +27,7 @@ void Player::Init(void)
 	Vector2 moPos = ins.GetMousePos();
 	agoMousePos_ = moPos;
 
-	IsAttrck_ = false;
+	isAttrck_ = false;
 }
 
 void Player::Update(void)
@@ -46,6 +46,8 @@ void Player::Draw(void)
 {
 
 	DrawRotaGraph(reticlePos_.x, reticlePos_.y, 1.0f, 0.0f, reticleHndle_, true);
+
+	DrawFormatString(100, 100, 0xffffff, "%d", isAttrck_);
 }
 
 void Player::Release(void)
@@ -79,11 +81,11 @@ void Player::UpdateMouse(void)
 	//çUåÇ
 	if (ins.IsClickMouseLeft())
 	{
-		IsAttrck_ = true;
+		isAttrck_ = true;
 	}
 	else
 	{
-		IsAttrck_ = false;
+		isAttrck_ = false;
 	}
 
 }
@@ -135,11 +137,11 @@ void Player::UpdateController(void)
 	//çUåÇ
 	if (ins.IsPadBtnTrgDown(jno, InputManager::JOYPAD_BTN::RIGHT))
 	{
-		IsAttrck_ = true;
+		isAttrck_ = true;
 	}
 	else
 	{
-		IsAttrck_ = false;
+		isAttrck_ = false;
 	}
 
 }

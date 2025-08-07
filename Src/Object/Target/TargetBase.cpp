@@ -1,6 +1,7 @@
 
 #include "../../Application.h"
 #include "../../Utility/AsoUtility.h"
+#include "../../Manager/SceneManager.h"
 
 
 #include "TargetBase.h"
@@ -31,45 +32,37 @@ void TargetBase::Init(void)
 		Quaternion::Euler({ AsoUtility::Deg2RadF(0.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
 	trans_.Update();
 
-	mRot_ = 90.0f;
-	goalRot_ = 0.0f;
+	ChangeState(STATE::POP_UP);
 }
 
 void TargetBase::Update(void)
 {
-	//今回回転させたい回転量をクォータニオンで作る
-	Quaternion rotPow = Quaternion();
+	
 
-	int rot = 0;
-	if (goalRot_ == 90.0f)
-	{
-		rot = 10;
-		rotPow = rotPow.Mult(
-			Quaternion::AngleAxis(
-				AsoUtility::Deg2RadF(AsoUtility::Deg2RadF(rot)), AsoUtility::AXIS_X
-			));
-	}
-	else if (goalRot_ == 0.0f)
-	{
-		rot = -10; 
-		rotPow = rotPow.Mult(
-			Quaternion::AngleAxis(
-				AsoUtility::Deg2RadF(AsoUtility::Deg2RadF(rot)), AsoUtility::AXIS_X
-			));
-	}
+	// 回転の球面補間
+	stepTime_ -= scnMng_.GetDeltaTime();
 
-	mRot_ += AsoUtility::Deg2RadF(rot);
-	if (mRot_ >= 90.0f&& goalRot_ == 90.0f)
-	{
-		goalRot_ = 0.0f;
-	}
-	if (mRot_ <= 0.0f&& goalRot_ == 0.0f)
-	{
-		goalRot_ = 90.0f;
-	}
+	trans_.quaRot = Quaternion::Slerp(
+		trans_.quaRot, goalQua_, (limitTime_ - stepTime_) / limitTime_);
 
-	// 回転諒を加える(合成)
-	trans_.quaRot = trans_.quaRot.Mult(rotPow);
+	if (stepTime_ < 0.0f)
+	{
+		switch (state_)
+		{
+		case STATE::POP_UP:
+			ChangeState(STATE::ALIVE);			
+			break;
+		case STATE::POP_DOWN:
+			ChangeState(STATE::DEATH);		
+			break;
+		case STATE::ALIVE:
+	
+			break;
+		case STATE::DEATH:
+			ChangeState(STATE::POP_UP);
+			break;
+		}
+	}
 
 	trans_.Update();
 }
@@ -106,4 +99,46 @@ bool TargetBase::InRange(Vector2 mPos)
 
 	return (start.x <= mPos.x && start.y <= mPos.y
 		&& end.x >= mPos.x && end.y >= mPos.y);
+}
+
+void TargetBase::ChangeState(STATE state)
+{
+	state_ = state;
+
+	switch (state_)
+	{
+	case STATE::POP_UP:
+
+		goalQua_ =
+			Quaternion::Euler({ AsoUtility::Deg2RadF(0.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
+		limitTime_ = 10.0f;//完了までの時間
+		stepTime_ = limitTime_;//経過時間
+
+			break;
+	case STATE::POP_DOWN:
+
+		goalQua_ =
+			Quaternion::Euler({ AsoUtility::Deg2RadF(90.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
+		limitTime_ = 10.0f;//完了までの時間
+		stepTime_ = limitTime_;//経過時間
+
+			break;
+	case STATE::ALIVE:
+
+		goalQua_ =
+			Quaternion::Euler({ AsoUtility::Deg2RadF(0.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
+		limitTime_ = 0.0f;//完了までの時間
+		stepTime_ = limitTime_;//経過時間
+
+			break;
+	case STATE::DEATH:
+
+		goalQua_ =
+			Quaternion::Euler({ AsoUtility::Deg2RadF(90.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
+		limitTime_ = 0.0f;//完了までの時間
+		stepTime_ = limitTime_;//経過時間
+
+			break;
+	}
+
 }
