@@ -1,6 +1,6 @@
 #pragma once
 #include<functional>
-#include"../../Common/Vector2.h"
+#include"../../Common/Vector2F.h"
 #include"../ObjectBase.h"
 
 class TargetBase :public ObjectBase
@@ -34,7 +34,7 @@ public:
 
 	virtual void Release(void);
 
-	bool InRange(Vector2 mPos);
+	bool InRange(Vector2F mPos);
 	const bool IsState(STATE state)const { return state_ == state; }
 
 	void ChangeState(STATE state);

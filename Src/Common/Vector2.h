@@ -20,6 +20,9 @@ public:
 	// Vector2F ‚Ö•ÏŠ·
 	Vector2F ToVector2F(void);
 
+	void operator*=(const int _value);
+	const Vector2 operator*(const int _value)const;
+
 
 
 };

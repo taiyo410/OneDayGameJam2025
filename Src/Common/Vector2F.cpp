@@ -27,3 +27,13 @@ Vector2 Vector2F::ToVector2(void)
 	ret.y = AsoUtility::Round(y);
 	return ret;
 }
+void Vector2F::operator*=(const float _value)
+{
+	x *= _value;
+	y *= _value;
+}
+
+const Vector2F Vector2F::operator*(const float _value)const
+{
+	return { x * _value, y * _value };
+}

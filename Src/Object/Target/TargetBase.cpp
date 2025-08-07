@@ -105,7 +105,7 @@ void TargetBase::Release(void)
 {
 }
 
-bool TargetBase::InRange(Vector2 mPos)
+bool TargetBase::InRange(Vector2F mPos)
 {
 	SetDrawScreen(SceneManager::GetInstance().GetMainScreen());
 	SceneManager::GetInstance().GetCamera().lock()->SetBeforeDraw();

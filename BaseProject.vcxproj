@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\FpsControl\FpsControl.cpp" />
     <ClCompile Include="Src\Manager\Camera.cpp" />
     <ClCompile Include="Src\Object\Target\CanTarget.cpp" />
     <ClCompile Include="Src\Object\Target\PanelTarget.cpp" />
@@ -46,6 +47,7 @@
     <ClCompile Include="Src\Object\Target\TargetBase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\FpsControl\FpsControl.h" />
     <ClInclude Include="Src\Manager\Camera.h" />
     <ClInclude Include="Src\Object\Target\CanTarget.h" />
     <ClInclude Include="Src\Object\Target\PanelTarget.h" />

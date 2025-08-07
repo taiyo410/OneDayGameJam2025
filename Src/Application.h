@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
-
+#include <memory>
+class FpsControl;
 class Application
 {
 
@@ -44,6 +45,9 @@ private:
 
 	// 静的インスタンス
 	static Application* instance_;
+
+	//FPS
+	std::unique_ptr<FpsControl> fps_;
 
 	// 初期化失敗
 	bool isInitFail_;

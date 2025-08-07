@@ -30,3 +30,13 @@ Vector2F Vector2::ToVector2F(void)
 	return ret;
 }
 
+void Vector2::operator*=(const int _value)
+{
+	x *= _value;
+	y *= _value;
+}
+
+const Vector2 Vector2::operator*(const int _value)const
+{
+	return { x * _value, y * _value };
+}

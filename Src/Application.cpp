@@ -4,6 +4,8 @@
 #include "Manager/SceneManager.h"
 #include "Manager/InputManager.h"
 #include "Manager/ResourceManager.h"
+
+#include "./FpsControl/FpsControl.h"
 #include "Application.h"
 
 Application* Application::instance_ = nullptr;
@@ -52,6 +54,10 @@ void Application::Init(void)
 	// キー制御初期化
 	SetUseDirectInputFlag(true);
 
+	// FPS初期化
+	fps_ = std::make_unique<FpsControl>();
+	fps_->Init();
+
 	// リソース管理初期化
 	ResourceManager::CreateInstance();
 	ResourceManager::GetInstance().Init();
@@ -69,13 +75,16 @@ void Application::Run(void)
 	// ゲームループ
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
-
+		//フレームレートを更新
+		if (!fps_->UpdateFrameRate()) continue;
 
 		InputManager::GetInstance().Update();
 
 		SceneManager::GetInstance().Update();
 		SceneManager::GetInstance().Draw();
 
+		//フレームレート計算
+		fps_->CalcFrameRate();
 
 		ScreenFlip();
 
@@ -118,6 +127,7 @@ Application::Application(void)
 {
 	isInitFail_ = false;
 	isReleaseFail_ = false;
+	fps_ = nullptr;
 }
 
 void Application::InitEffekseer(void)

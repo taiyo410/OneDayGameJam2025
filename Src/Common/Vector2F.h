@@ -21,5 +21,8 @@ public:
 	// Vector2 ‚Ö•ÏŠ·
 	Vector2 ToVector2(void);
 
+	void operator*=(const float _value);
+	const Vector2F operator*(const float _value)const;
+
 };
 

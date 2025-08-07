@@ -17,14 +17,19 @@ public:
 	void Draw(void);
 	void Release(void);
 
-	const Vector2 GetReticle(void)const { return reticlePos_; }
+	const Vector2F GetReticle(void)const { return reticlePos_; }
 	const bool IsAttrck(void)const { return isAttrck_; }
+
+	void AddPoint(int point) { point_ += point; }
 
 private:
 
 	int reticleHndle_;
-	Vector2 reticlePos_;
+	Vector2F reticlePos_;
 	Vector2 agoMousePos_;
+
+	//ポイント
+	int point_;
 
 	//操作方法別の更新
 	std::function<void(void)> typeUpdate_;
@@ -32,6 +37,9 @@ private:
 
 	void UpdateMouse(void);
 	void UpdateController(void);
+
+	//レティクルの移動
+	void MoveReticle(void);
 
 };
 

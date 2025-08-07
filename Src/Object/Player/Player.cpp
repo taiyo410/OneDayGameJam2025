@@ -2,13 +2,14 @@
 
 #include "../../Manager/SceneManager.h"
 #include "../../Manager/InputManager.h"
-
+#include "../../Utility/AsoUtility.h"
 #include "../../Application.h"
 
 #include "Player.h"
 
 Player::Player(void)
 {
+	point_ = 0;
 }
 
 Player::~Player(void)
@@ -48,6 +49,7 @@ void Player::Draw(void)
 	DrawRotaGraph(reticlePos_.x, reticlePos_.y, 1.0f, 0.0f, reticleHndle_, true);
 
 	DrawFormatString(100, 100, 0xffffff, "%d", isAttrck_);
+	//DrawFormatString(100, 500, 0xffffff, "%d,%d", reticlePos_.x, reticlePos_.y);
 	DrawFormatString(100, 500, 0xffffff, "%d,%d", reticlePos_.x, reticlePos_.y);
 }
 
@@ -103,37 +105,8 @@ void Player::UpdateController(void)
 		return;
 	}
 
-	//パッドの状態取得
-	int padState = GetJoypadInputState(DX_INPUT_PAD1);
+	MoveReticle();
 	InputManager::JOYPAD_NO jno = static_cast<InputManager::JOYPAD_NO>(DX_INPUT_PAD1);
-
-	// 左スティックの横軸取得
-	const auto& leftStickX = InputManager::GetInstance().GetJPadInputState(jno).AKeyLX;
-	// 左スティックの縦軸取得
-	const auto& leftStickY = InputManager::GetInstance().GetJPadInputState(jno).AKeyLY;
-
-	Vector2 moveDir = { 0,0 };
-
-	if (leftStickX <= -500)
-	{
-		moveDir.x += -1;
-	}
-	if (leftStickX >= 500)
-	{
-		moveDir.x += 1;
-	}
-	if (leftStickY <= -500)
-	{
-		moveDir.y += -1;
-	}
-	if (leftStickY >= 500)
-	{
-		moveDir.y += 1;
-	}
-
-	reticlePos_.x += moveDir.x;
-	reticlePos_.y += moveDir.y;
-
 
 	//攻撃
 	if (ins.IsPadBtnTrgDown(jno, InputManager::JOYPAD_BTN::RIGHT))
@@ -145,4 +118,35 @@ void Player::UpdateController(void)
 		isAttrck_ = false;
 	}
 
+}
+
+void Player::MoveReticle(void)
+{
+	//パッドの状態取得
+	int padState = GetJoypadInputState(DX_INPUT_PAD1);
+	InputManager::JOYPAD_NO jno = static_cast<InputManager::JOYPAD_NO>(DX_INPUT_PAD1);
+
+	// 左スティックの横軸取得
+	const auto& leftStickX = InputManager::GetInstance().GetJPadInputState(jno).AKeyLX;
+	// 左スティックの縦軸取得
+	const auto& leftStickY = InputManager::GetInstance().GetJPadInputState(jno).AKeyLY;
+
+	static const int DEAD_ZONE = 200; // デッドゾーンの閾値
+
+	Vector2F moveDir = { 0,0 };
+	if (leftStickX <= -DEAD_ZONE || leftStickX >= DEAD_ZONE
+		|| leftStickY <= -DEAD_ZONE || leftStickY >= DEAD_ZONE)
+	{
+		VECTOR norm = AsoUtility::Normalize({ leftStickX,leftStickY });
+		moveDir = { norm.x,norm.y };
+		float movePow = 10.0f;
+		if (InputManager::GetInstance().IsPadBtnNew(jno, InputManager::JOYPAD_BTN::R_BTN))
+		{
+			movePow = 15.0f; // 移動速度の調整
+		}
+		moveDir *= movePow;
+	}
+
+	reticlePos_.x += moveDir.x;
+	reticlePos_.y += moveDir.y;
 }
