@@ -42,6 +42,9 @@ public:
 	const bool IsScore(void)const { return isScorePlus_; }
 
 	void ChangeState(STATE state);
+	
+	//’e‚ª“–‚½‚Á‚½‚Ìˆ—
+	virtual void Hit(Vector2F mPos);
 
 	void CharChange();
 

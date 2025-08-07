@@ -12,6 +12,7 @@
 
 #include "../Object/Target/TargetBase.h"
 #include "../Object/Target/PanelTarget.h"
+#include "../Object/Target/CanTarget.h"
 
 #include "../Application.h"
 
@@ -46,6 +47,23 @@ void GameScene::Init(void)
 	effec_ = std::make_unique<EffectController>();
 	effec_->Add(0, (Application::PATH_EFFECT + "Hit.efkefc"));
 
+	
+#ifdef _DEBUG
+
+	float posX = -500.0f;
+	for (int i = 0; i < 5; i++)
+	{
+		auto target = std::make_unique<CanTarget>();
+		target->Init();
+		target->SetPos({ posX + i * 250.0f, 0.0f,150.0f });
+		targets_.push_back(std::move(target));
+}
+
+	modeUpdate_ = std::bind(&GameScene::CanRule, this);
+#endif // _DEBUG
+	
+#ifdef NDEBUG 
+	// 処理
 	float posX = -500.0f;
 	for (int i = 0; i < 5; i++)
 	{
@@ -55,15 +73,22 @@ void GameScene::Init(void)
 		targets_.push_back(std::move(target));
 	}
 
+	modeUpdate_ = std::bind(&GameScene::PannelRule, this);
+#endif // NDEBUG
+
 	// マウスを非表示状態にする
 	SetMouseDispFlag(false);
 
-	modeUpdate_ = std::bind(&GameScene::PannelRule, this);
 }
 
 void GameScene::Update(void)
 {
 	effec_->Update(0);
+
+	for (auto& player : players_)
+	{
+		player->Update();
+	}
 
 	modeUpdate_();
 
@@ -93,7 +118,12 @@ void GameScene::Draw(void)
 		target->Draw();
 	}
 
+
+#ifdef _DEBUG
+
 	MV1DrawModel(fenceModel_);
+
+#endif // NDEBUG
 
 	for (auto& player : players_)
 	{
@@ -115,12 +145,6 @@ void GameScene::PannelRule()
 {
 	auto& ins = InputManager::GetInstance();
 	Vector2 moPos = ins.GetMousePos();
-
-	for (auto& player : players_)
-	{
-		player->Update();
-	}
-
 
 	bool isWipeOut = true;
 	for (auto& target : targets_)
@@ -171,4 +195,38 @@ void GameScene::PannelRule()
 //缶ゲームモード
 void GameScene::CanRule()
 {
+	auto& ins = InputManager::GetInstance();
+	Vector2 moPos = ins.GetMousePos();
+
+	bool isWipeOut = true;
+	for (auto& target : targets_)
+	{
+		target->Update();
+
+		//ターゲットが全滅しているか
+		if (target->IsState(TargetBase::STATE::ALIVE))
+		{
+			isWipeOut = false;
+		}
+
+		for (auto& player : players_)
+		{
+			if (player->IsAttrck() && target->InRange(player->GetReticle())
+				&& (target->IsState(TargetBase::STATE::ALIVE)))
+			{
+				//衝突
+				target->Hit(player->GetReticle());
+				effec_->Play(0, target->GetCenter(), { 0.0f,0.0f,0.0f }, 10.0f);
+
+				//ポイント計算
+				if (target->IsScore())//ポイント加算
+				{
+
+				}
+
+			}
+		}
+	}
+
+
 }

@@ -71,4 +71,6 @@ void PanelTarget::Update(void)
 void PanelTarget::Draw(void)
 {
 	MV1DrawModel(trans_.modelId);
+
+	
 }

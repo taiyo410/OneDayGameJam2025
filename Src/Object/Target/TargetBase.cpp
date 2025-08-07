@@ -176,6 +176,10 @@ void TargetBase::ChangeState(STATE state)
 
 }
 
+void TargetBase::Hit(Vector2F mPos)
+{
+}
+
 void TargetBase::CharChange()
 {
 	int i = rand() % 2;
