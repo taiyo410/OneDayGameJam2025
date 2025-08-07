@@ -23,6 +23,7 @@ ResourceManager& ResourceManager::GetInstance(void)
 void ResourceManager::Init(void)
 {
 	static std::string PATH_IMG = Application::PATH_IMAGE;
+	static std::string PATH_OBJ = Application::PATH_OBJECT;
 	static std::string PATH_MDL = Application::PATH_MODEL;
 	static std::string PATH_EFF = Application::PATH_EFFECT;
 
@@ -30,6 +31,24 @@ void ResourceManager::Init(void)
 
 	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "crosshair184.png");
 	resourcesMap_.emplace(SRC::CROSSHAIR, std::move(res));
+
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_OBJ+"Princess.png");
+	resourcesMap_.emplace(SRC::PRINCESS, std::move(res));
+
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_OBJ + "BanDit.png");
+	resourcesMap_.emplace(SRC::BANDIT, std::move(res));
+
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "BackGround.png");
+	resourcesMap_.emplace(SRC::BACKGROUND_TITLE, std::move(res));
+
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "Title.png");
+	resourcesMap_.emplace(SRC::TITLENAME, std::move(res));
+
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_OBJ + "Box.png");
+	resourcesMap_.emplace(SRC::BOX, std::move(res));
+
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_OBJ + "Button.png");
+	resourcesMap_.emplace(SRC::PUSH_BUTTON, std::move(res));
 }
 
 void ResourceManager::SceneChangeRelease(void)
