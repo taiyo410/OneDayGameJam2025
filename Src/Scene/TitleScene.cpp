@@ -1,8 +1,6 @@
 #include <DxLib.h>
-
 #include "../Manager/SceneManager.h"
 #include "../Manager/InputManager.h"
-
 #include "TitleScene.h"
 
 TitleScene::TitleScene(void)
