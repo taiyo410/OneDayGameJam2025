@@ -13,9 +13,12 @@ public:
 	~Player(void);
 
 	void Init(void);
-	void Update(void) ;
-	void Draw(void) ;
-	void Release(void) ;
+	void Update(void);
+	void Draw(void);
+	void Release(void);
+
+	const Vector2 GetReticle(void)const { return reticlePos_; }
+	const bool IsAttrck(void)const { return IsAttrck_; }
 
 private:
 
@@ -25,6 +28,7 @@ private:
 
 	//ëÄçÏï˚ñ@ï ÇÃçXêV
 	std::function<void(void)> typeUpdate_;
+	bool IsAttrck_;
 
 	void UpdateMouse(void);
 	void UpdateController(void);

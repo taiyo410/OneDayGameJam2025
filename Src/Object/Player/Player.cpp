@@ -21,11 +21,13 @@ void Player::Init(void)
 	reticleHndle_ = LoadGraph((Application::PATH_IMAGE + "crosshair184.png").c_str());
 	reticlePos_ = { 0,0 };
 
-	typeUpdate_= std::bind(&Player::UpdateMouse, this);
+	typeUpdate_ = std::bind(&Player::UpdateMouse, this);
 
 	auto& ins = InputManager::GetInstance();
 	Vector2 moPos = ins.GetMousePos();
 	agoMousePos_ = moPos;
+
+	IsAttrck_ = false;
 }
 
 void Player::Update(void)
@@ -60,12 +62,12 @@ void Player::UpdateMouse(void)
 	InputManager::JOYPAD_NO jno = static_cast<InputManager::JOYPAD_NO>(DX_INPUT_PAD1);
 
 	// 左スティックの横軸取得
-	const auto& leftStickX = InputManager::GetInstance().GetJPadInputState(jno).AKeyLX;
+	const auto& leftStickX = ins.GetJPadInputState(jno).AKeyLX;
 	// 左スティックの縦軸取得
-	const auto& leftStickY = InputManager::GetInstance().GetJPadInputState(jno).AKeyLY;
+	const auto& leftStickY = ins.GetJPadInputState(jno).AKeyLY;
 
-	if (leftStickX <= -500 || leftStickX >= 500 
-		|| leftStickY <= -500 || leftStickY >= 500 )
+	if (leftStickX <= -500 || leftStickX >= 500
+		|| leftStickY <= -500 || leftStickY >= 500)
 	{
 		SetMousePoint(reticlePos_.x, reticlePos_.y);
 		typeUpdate_ = std::bind(&Player::UpdateController, this);
@@ -73,6 +75,16 @@ void Player::UpdateMouse(void)
 	}
 
 	reticlePos_ = moPos;
+
+	//攻撃
+	if (ins.IsClickMouseLeft())
+	{
+		IsAttrck_ = true;
+	}
+	else
+	{
+		IsAttrck_ = false;
+	}
 
 }
 void Player::UpdateController(void)
@@ -99,24 +111,35 @@ void Player::UpdateController(void)
 
 	Vector2 moveDir = { 0,0 };
 
-	if (leftStickX <= -500 )
+	if (leftStickX <= -500)
 	{
-		moveDir.x = -1;
+		moveDir.x += -1;
 	}
-	if (leftStickX >= 500 )
+	if (leftStickX >= 500)
 	{
-		moveDir.x = 1;
+		moveDir.x += 1;
 	}
-	if (leftStickY <= -500 )
+	if (leftStickY <= -500)
 	{
-		moveDir.y = -1;
+		moveDir.y += -1;
 	}
-	if (leftStickY >= 500 )
+	if (leftStickY >= 500)
 	{
-		moveDir.y = 1;
+		moveDir.y += 1;
 	}
 
 	reticlePos_.x += moveDir.x;
 	reticlePos_.y += moveDir.y;
+
+
+	//攻撃
+	if (ins.IsPadBtnTrgDown(jno, InputManager::JOYPAD_BTN::RIGHT))
+	{
+		IsAttrck_ = true;
+	}
+	else
+	{
+		IsAttrck_ = false;
+	}
 
 }
