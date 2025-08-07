@@ -5,17 +5,18 @@
 #include "../Manager/InputManager.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/ResourceManager.h"
-#include "SelecteScene.h"
+#include "../Manager/DataBank.h"
+#include "SelectScene.h"
 
-SelecteScene::SelecteScene(void)
+SelectScene::SelectScene(void)
 {
 }
 
-SelecteScene::~SelecteScene(void)
+SelectScene::~SelectScene(void)
 {
 }
 
-void SelecteScene::Init(void)
+void SelectScene::Init(void)
 {
 	//リソースマネージャのインスタンス 
 	ResourceManager& res = ResourceManager::GetInstance();
@@ -32,11 +33,12 @@ void SelecteScene::Init(void)
 	selectId_ = SELECT_ID::MULTI;
 }
 
-void SelecteScene::Update(void)
+void SelectScene::Update(void)
 {
 
 	if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_SPACE))
 	{
+		DataBank::GetInstance().SetSelectId(selectId_);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME);
 	}
 
@@ -84,7 +86,7 @@ void SelecteScene::Update(void)
 	}
 }
 
-void SelecteScene::Draw(void)
+void SelectScene::Draw(void)
 {
 
 	//画面中心座標
@@ -102,7 +104,7 @@ void SelecteScene::Draw(void)
 	DrawRotaGraph(basePos.x + 375, basePos.y, 0.4, 0.25f, banDitImg_, true);
 }
 
-void SelecteScene::Release(void)
+void SelectScene::Release(void)
 {
 	DeleteGraph(backImg_);
 	DeleteGraph(multiImg_);

@@ -39,23 +39,31 @@ void Player::Update(void)
 	//操作
 	typeUpdate_();
 
-
-
 	agoMousePos_ = moPos;
 }
 
 void Player::Draw(void)
 {
-
 	DrawRotaGraph(reticlePos_.x, reticlePos_.y, 1.0f, 0.0f, reticleHndle_, true);
 
-	DrawFormatString(100, 100, 0xffffff, "%d", isAttrck_);
+	DrawFormatString(100, 100, 0xffffff, "%d", point_);
 	//DrawFormatString(100, 500, 0xffffff, "%d,%d", reticlePos_.x, reticlePos_.y);
 	DrawFormatString(100, 500, 0xffffff, "%d,%d", reticlePos_.x, reticlePos_.y);
 }
 
 void Player::Release(void)
 {
+}
+
+void Player::AddPoint(int point)
+{
+	if (point_+point<=0)
+	{
+		point_ = 0; 
+		return; //ポイントが0以下にならないようにする
+	}
+	point_ += point;
+
 }
 
 //マウスかコントローラーの更新

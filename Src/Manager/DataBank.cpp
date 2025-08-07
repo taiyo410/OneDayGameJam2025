@@ -34,18 +34,24 @@ void DataBank::Destroy(void)
 
 bool DataBank::SetPlayerNum(int _num)
 {
-	//maxPlayerNum_ = GetJoypadNum();
-	//if (num <= maxPlayerNum_)
-	//{
-		playerNum_ = _num;
-		return true;
-	//}
+	playerNum_ = _num;
+	return true;
 	return false;
 }
 
 int DataBank::GetPlayerNum(void)
 {
 	return playerNum_;
+}
+
+const SelectScene::SELECT_ID DataBank::GetSelectId(void)const
+{
+	return selectId_;
+}
+
+void DataBank::SetSelectId(const SelectScene::SELECT_ID _id)
+{
+	selectId_ = _id;
 }
 
 

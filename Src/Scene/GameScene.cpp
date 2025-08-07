@@ -5,6 +5,7 @@
 #include "../Manager/ResourceManager.h"
 
 #include "../Manager/Camera.h"
+#include "../Manager/DataBank.h"
 
 #include "../Object/Common/EffectController.h"
 
@@ -12,7 +13,7 @@
 
 #include "../Object/Target/TargetBase.h"
 #include "../Object/Target/PanelTarget.h"
-
+#include"../Scene/SelectScene.h"
 #include "../Application.h"
 
 #include "GameScene.h"
@@ -57,8 +58,8 @@ void GameScene::Init(void)
 
 	// マウスを非表示状態にする
 	SetMouseDispFlag(false);
-
 	modeUpdate_ = std::bind(&GameScene::PannelRule, this);
+	//modeUpdate_ = std::bind(&GameScene::PannelRule, this);
 }
 
 void GameScene::Update(void)
@@ -146,11 +147,11 @@ void GameScene::PannelRule()
 				//ポイント計算
 				if (target->IsScore())//ポイント加算
 				{
-
+					player->AddPoint(1);
 				}
 				else if (!target->IsScore())//ポイント減算
 				{
-
+					player->AddPoint(-2);
 				}
 
 			}

@@ -20,7 +20,7 @@ public:
 	const Vector2F GetReticle(void)const { return reticlePos_; }
 	const bool IsAttrck(void)const { return isAttrck_; }
 
-	void AddPoint(int point) { point_ += point; }
+	void AddPoint(int point);
 
 private:
 	//’è”
