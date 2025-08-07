@@ -2,6 +2,7 @@
 
 #include "../Manager/SceneManager.h"
 #include "../Manager/InputManager.h"
+#include "../Manager/ResourceManager.h"
 
 #include "../Application.h"
 
@@ -18,7 +19,9 @@ GameScene::~GameScene(void)
 
 void GameScene::Init(void)
 {
-	reticleHndle_ = LoadGraph((Application::PATH_IMAGE + "crosshair184.png").c_str());
+
+	//reticleHndle_ = LoadGraph((Application::PATH_IMAGE + "crosshair184.png").c_str());
+	reticleHndle_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CROSSHAIR).handleId_;
 
 	// マウスを表示状態にする
 	SetMouseDispFlag(false);
