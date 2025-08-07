@@ -1,5 +1,8 @@
 #include <DxLib.h>
 #include <EffekseerForDXLib.h>
+
+#include "Manager/SceneManager.h"
+
 #include "Application.h"
 
 Application* Application::instance_ = nullptr;
@@ -47,6 +50,8 @@ void Application::Init(void)
 	// ÉLÅ[êßå‰èâä˙âª
 	SetUseDirectInputFlag(true);
 
+	SceneManager::CreateInstance();
+
 }
 
 void Application::Run(void)
@@ -56,7 +61,14 @@ void Application::Run(void)
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
 
+
+		SceneManager::GetInstance().Update();
+		SceneManager::GetInstance().Draw();
+
+
 		ScreenFlip();
+
+
 
 	}
 
@@ -73,6 +85,8 @@ void Application::Destroy(void)
 	{
 		isReleaseFail_ = true;
 	}
+
+	SceneManager::GetInstance().Destroy();
 
 	delete instance_;
 
