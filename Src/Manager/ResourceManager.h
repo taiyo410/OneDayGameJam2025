@@ -22,9 +22,12 @@ public:
 	{
 		NONE,
 		CROSSHAIR,
+		TITLENAME,
 		PRINCESS,
 		BANDIT,
 		BACKGROUND_TITLE,
+		PUSH_BUTTON,
+		BOX,
 	};
 
 	/// <summary>

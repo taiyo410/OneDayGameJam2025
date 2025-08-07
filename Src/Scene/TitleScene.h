@@ -16,10 +16,24 @@ public:
 
 	//盗賊関連
 	static constexpr float BANDIT_RATE = 0.5f;
-	static constexpr float BANDIT_ANGLE = -0.8f;
-	static constexpr int BANDIT_POS_X = 950;
+	static constexpr float BANDIT_ANGLE = -1.0f;
+	static constexpr int BANDIT_POS_X = 900;
 	static constexpr int BANDIT_POS_Y = 170;
 
+	//タイトル画像
+	static constexpr int TITLENAME_POS_X = 515;
+
+	//箱関連
+	static constexpr int BOX_POS_X = 170;
+	static constexpr int BOX_POS_Y = 500;
+	static constexpr float BOX_RATE = 0.5f;
+	static constexpr float BOX_ANGLE = 0.f;
+
+	//ボタン
+	static constexpr int BUTTON_POS_X = 515;
+	static constexpr int BUTTON_POS_Y = 515;
+	static constexpr float BUTTON_RATE = 0.3f;
+	static constexpr float BUTTON_ANGLE = 0.f;
 
 	// コンストラクタ
 	TitleScene(void);
@@ -49,6 +63,28 @@ private:
 	//初期座標
 	Vector2 banDitPos_;
 
+	//タイトル名用ハンドル
+	int titleNameImg_;
+	//タイトル表示位置
+	Vector2 titleNamePos_;
+
+	//箱画像ハンドル
+	int boxImg_;
+
+	//箱表示位置
+	Vector2 boxPos_;
+	
+	//ボタン用ハンドル
+	int buttonImg_;
+	Vector2 buttonPos_;
+
+	//ボタンの大きさを変更する
+	float buttonScl_;
+	float buttonSclTime_;
+
+	//時間更新
+	float princessMoveTime_;
+	float banDitMoveTime_;
 
 };
 

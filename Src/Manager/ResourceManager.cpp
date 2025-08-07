@@ -40,6 +40,15 @@ void ResourceManager::Init(void)
 
 	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "BackGround.png");
 	resourcesMap_.emplace(SRC::BACKGROUND_TITLE, std::move(res));
+
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "Title.png");
+	resourcesMap_.emplace(SRC::TITLENAME, std::move(res));
+
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_OBJ + "Box.png");
+	resourcesMap_.emplace(SRC::BOX, std::move(res));
+
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_OBJ + "Button.png");
+	resourcesMap_.emplace(SRC::PUSH_BUTTON, std::move(res));
 }
 
 void ResourceManager::SceneChangeRelease(void)
