@@ -101,19 +101,19 @@ void Player::UpdateController(void)
 
 	if (leftStickX <= -500 )
 	{
-		moveDir.x = -1;
+		moveDir.x += -1;
 	}
 	if (leftStickX >= 500 )
 	{
-		moveDir.x = 1;
+		moveDir.x += 1;
 	}
 	if (leftStickY <= -500 )
 	{
-		moveDir.y = -1;
+		moveDir.y += -1;
 	}
 	if (leftStickY >= 500 )
 	{
-		moveDir.y = 1;
+		moveDir.y += 1;
 	}
 
 	reticlePos_.x += moveDir.x;
