@@ -18,5 +18,13 @@ public:
 	void Draw(void) override;
 	void Release(void) override;
 
+private:
+
+	//”wŒi‰æ‘œ—pƒnƒ“ƒhƒ‹
+	int backGroundImg_ = -1;
+
+	//‚¨•P—lŠÖ˜A
+	//int prins
+
 };
 
