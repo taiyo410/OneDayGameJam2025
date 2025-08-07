@@ -31,7 +31,8 @@ public:
 
 		//セレクトシーン画像
 		BACKSELECT,
-		SELECTIMG,
+		SELECT_ENDLESS,
+		SELECT_MELTI
 	};
 
 	/// <summary>

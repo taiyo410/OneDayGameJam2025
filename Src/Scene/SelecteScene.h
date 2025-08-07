@@ -27,9 +27,8 @@ public:
 
 private:
 
-	//背景画像用ハンドル
-	int backimg_;
-
-	int img_;
+	//ハンドル
+	int backImg_;
+	int MultiImg_;
+	int endlessImg_;
 };
-

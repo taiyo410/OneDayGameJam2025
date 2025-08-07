@@ -16,8 +16,9 @@ void SelecteScene::Init(void)
 {
 	//リソースマネージャのインスタンス 
 	ResourceManager& res = ResourceManager::GetInstance();
-	backimg_ = res.Load(ResourceManager::SRC::BACKSELECT).handleId_;
-	img_ = res.Load(ResourceManager::SRC::SELECTIMG).handleId_;
+	backImg_ = res.Load(ResourceManager::SRC::BACKSELECT).handleId_;
+	MultiImg_ = res.Load(ResourceManager::SRC::SELECT_MELTI).handleId_;
+	endlessImg_ = res.Load(ResourceManager::SRC::SELECT_ENDLESS).handleId_;
 }
 
 void SelecteScene::Update(void)
@@ -41,7 +42,7 @@ void SelecteScene::Draw(void)
 	Vector2 boxPos2 = { basePos.x + boxX, basePos.y + boxY };
 
 	//ボードの描画
-	DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 1.15f, 0.0f, backimg_, true);
+	DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 1.15f, 0.0f, backImg_, true);
 
 	//選択
 	DrawBox(
@@ -52,11 +53,13 @@ void SelecteScene::Draw(void)
 		GetColor(255, 255, 255),
 		true);
 
-	DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.25f, 0.0f, img_, true);
+	DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.5f, 0.0f, MultiImg_, true);
+	DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.5f, 0.0f, endlessImg_, true);
 }
 
 void SelecteScene::Release(void)
 {
-	DeleteGraph(backimg_);
-	DeleteGraph(img_);
+	DeleteGraph(backImg_);
+	DeleteGraph(MultiImg_);
+	DeleteGraph(endlessImg_);
 }
