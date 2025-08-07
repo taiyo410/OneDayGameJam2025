@@ -23,6 +23,7 @@ ResourceManager& ResourceManager::GetInstance(void)
 void ResourceManager::Init(void)
 {
 	static std::string PATH_IMG = Application::PATH_IMAGE;
+	static std::string PATH_OBJ = Application::PATH_OBJECT;
 	static std::string PATH_MDL = Application::PATH_MODEL;
 	static std::string PATH_EFF = Application::PATH_EFFECT;
 
@@ -30,6 +31,9 @@ void ResourceManager::Init(void)
 
 	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "crosshair184.png");
 	resourcesMap_.emplace(SRC::CROSSHAIR, std::move(res));
+
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_OBJ+"Princess.png");
+	resourcesMap_.emplace(SRC::PRINCESS, std::move(res));
 }
 
 void ResourceManager::SceneChangeRelease(void)
