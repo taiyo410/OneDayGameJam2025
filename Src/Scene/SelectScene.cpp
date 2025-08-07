@@ -85,6 +85,11 @@ void SelectScene::Update(void)
 				playerNum_ = PLAYER_MIN;
 			}
 		}
+		if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_BACK))
+		{
+			isMultiSelect_ = false;
+			return;
+		}
 		if(InputManager::GetInstance().IsTrgDown(KEY_INPUT_SPACE))
 		{
 			DataBank::GetInstance().SetPlayerNum(playerNum_);
