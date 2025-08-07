@@ -1,6 +1,7 @@
 #pragma once
 #include<functional>
 #include"../../Common/Vector2F.h"
+#include"../../Common/Vector2.h"
 #include"../ObjectBase.h"
 
 class TargetBase :public ObjectBase
