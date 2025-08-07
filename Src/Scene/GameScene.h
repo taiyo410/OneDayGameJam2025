@@ -1,5 +1,8 @@
 #pragma once
+#include <memory>
 #include "SceneBase.h"
+
+class Player;
 
 class GameScene :
     public SceneBase
@@ -20,7 +23,9 @@ public:
 
 private:
 
-	int reticleHndle_;
+
+	std::unique_ptr<Player> player_;
+
 
 };
 
