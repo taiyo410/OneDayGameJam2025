@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Scene\SelecteScene.cpp" />
+    <ClCompile Include="Src\Object\Target\Panel.cpp" />
     <ClCompile Include="Src\Manager\Resource.cpp" />
     <ClCompile Include="Src\Manager\ResourceManager.cpp" />
     <ClCompile Include="Src\Object\Common\AnimationController.cpp" />
@@ -44,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Scene\SelecteScene.h" />
+    <ClInclude Include="Src\Object\Target\Panel.h" />
     <ClInclude Include="Src\Manager\Resource.h" />
     <ClInclude Include="Src\Manager\ResourceManager.h" />
     <ClInclude Include="Src\Object\Common\AnimationController.h" />

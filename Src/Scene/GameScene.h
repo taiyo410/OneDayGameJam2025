@@ -3,7 +3,7 @@
 #include "SceneBase.h"
 
 class Player;
-
+class TargetBase;
 class GameScene :
     public SceneBase
 {
@@ -25,7 +25,13 @@ private:
 
 
 	std::unique_ptr<Player> player_;
+	std::function<void(void)> modeUpdate_;
 
+	std::vector<std::unique_ptr<TargetBase>> targets_;
+
+
+	void PannelRule();
+	void CanRule();
 
 };
 
