@@ -28,6 +28,7 @@ public:
 		BACKGROUND_TITLE,
 		PUSH_BUTTON,
 		BOX,
+		SELECTIMG,
 	};
 
 	/// <summary>

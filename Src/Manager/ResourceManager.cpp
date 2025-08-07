@@ -49,6 +49,9 @@ void ResourceManager::Init(void)
 
 	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_OBJ + "Button.png");
 	resourcesMap_.emplace(SRC::PUSH_BUTTON, std::move(res));
+
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "select.png");
+	resourcesMap_.emplace(SRC::SELECTIMG, std::move(res));
 }
 
 void ResourceManager::SceneChangeRelease(void)

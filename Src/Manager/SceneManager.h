@@ -18,6 +18,7 @@ public:
 	{
 		NONE,
 		TITLE,	//タイトル
+		SELECT,
 		GAME,	//ゲーム
 		RESULT,	//リザルト
 	};

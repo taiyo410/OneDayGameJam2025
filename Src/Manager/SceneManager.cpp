@@ -8,6 +8,7 @@
 #include "../Common/Fader.h"
 
 #include "../Scene/SceneBase.h"
+#include "../Scene/SelecteScene.h"
 #include "../Scene/TitleScene.h"
 #include "../Scene/GameScene.h"
 #include "../Scene/ResultScene.h"
@@ -226,6 +227,9 @@ void SceneManager::DoChangeScene(SCENE_ID sceneId)
 	{
 	case SCENE_ID::TITLE:
 		scene_ = std::make_unique<TitleScene>();
+		break;
+	case SCENE_ID::SELECT:
+		scene_ = std::make_unique<SelecteScene>();
 		break;
 	case SCENE_ID::GAME:
 		scene_ = std::make_unique<GameScene>();
