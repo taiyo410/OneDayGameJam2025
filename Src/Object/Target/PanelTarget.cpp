@@ -20,9 +20,11 @@ void PanelTarget::Init(void)
 
 	if (i == 0) {
 		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Enemy/enemy.mv1").c_str());
+		isScorePlus_ = true;
 	}
 	else {
 		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Friend/friend.mv1").c_str());
+		isScorePlus_ = false;
 	}
 	trans_.scl = AsoUtility::VECTOR_ONE;
 	// èâä˙ç¿ïW

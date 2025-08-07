@@ -7,7 +7,7 @@ class Player
 public:
 
 	// コンストラクタ
-	Player(void);
+	Player(const int _playerNo);
 
 	// デストラクタ
 	~Player(void);
@@ -32,6 +32,12 @@ private:
 
 	//ポイント
 	int point_;
+
+	//プレイヤー番号
+	int playerNo_;
+
+	//コントローラー番号
+	InputManager::JOYPAD_NO joyPadNo_;
 
 	//操作方法別の更新
 	std::function<void(void)> typeUpdate_;

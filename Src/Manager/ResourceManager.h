@@ -33,7 +33,11 @@ public:
 		BACKSELECT,
 		SELECT_ENDLESS,
 		SELECT_MELTI,
-		SELECT_PANEL
+		SELECT_PANEL,
+
+		NUMBER_IMG,
+
+
 	};
 
 	/// <summary>

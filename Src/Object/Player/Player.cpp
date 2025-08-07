@@ -7,9 +7,11 @@
 
 #include "Player.h"
 
-Player::Player(void)
+Player::Player(const int _playerNo)
+	: playerNo_(_playerNo)
 {
 	point_ = 0;
+	joyPadNo_ = static_cast<InputManager::JOYPAD_NO>(static_cast<int>(InputManager::JOYPAD_NO::PAD1)+playerNo_); // デフォルトのジョイパッド番号を設定
 }
 
 Player::~Player(void)
@@ -44,7 +46,7 @@ void Player::Update(void)
 
 void Player::Draw(void)
 {
-	DrawRotaGraph(reticlePos_.x, reticlePos_.y, 1.0f, 0.0f, reticleHndle_, true);
+	DrawRotaGraph(reticlePos_.x+playerNo_*300.0f, reticlePos_.y, 1.0f, 0.0f, reticleHndle_, true);
 
 	DrawFormatString(100, 100, 0xffffff, "%d", point_);
 	//DrawFormatString(100, 500, 0xffffff, "%d,%d", reticlePos_.x, reticlePos_.y);
@@ -72,15 +74,16 @@ void Player::UpdateMouse(void)
 	auto& ins = InputManager::GetInstance();
 	Vector2 moPos = ins.GetMousePos();
 
-	InputManager::JOYPAD_NO jno = static_cast<InputManager::JOYPAD_NO>(DX_INPUT_PAD1);
+	//InputManager::JOYPAD_NO jno = static_cast<InputManager::JOYPAD_NO>(DX_INPUT_PAD1);
+	//InputManager::JOYPAD_NO jno = InputManager::JOYPAD_NO::PAD1;
 
 	//移動前のレティクル位置を保存
 	reticlePrePos_ = reticlePos_;
 	
 	// 左スティックの横軸取得
-	const auto& leftStickX = ins.GetJPadInputState(jno).AKeyLX;
+	const auto& leftStickX = ins.GetJPadInputState(joyPadNo_).AKeyLX;
 	// 左スティックの縦軸取得
-	const auto& leftStickY = ins.GetJPadInputState(jno).AKeyLY;
+	const auto& leftStickY = ins.GetJPadInputState(joyPadNo_).AKeyLY;
 
 	if (leftStickX <= -500 || leftStickX >= 500
 		|| leftStickY <= -500 || leftStickY >= 500)
@@ -173,11 +176,10 @@ void Player::LimitReticle(void)
 
 bool Player::IsMoveableReticle(void) const
 {
-	InputManager::JOYPAD_NO jno = static_cast<InputManager::JOYPAD_NO>(DX_INPUT_PAD1);
 	// 左スティックの横軸取得
-	const auto& leftStickX = InputManager::GetInstance().GetJPadInputState(jno).AKeyLX;
+	const auto& leftStickX = InputManager::GetInstance().GetJPadInputState(joyPadNo_).AKeyLX;
 	// 左スティックの縦軸取得
-	const auto& leftStickY = InputManager::GetInstance().GetJPadInputState(jno).AKeyLY;
+	const auto& leftStickY = InputManager::GetInstance().GetJPadInputState(joyPadNo_).AKeyLY;
 
 	static const int DEAD_ZONE = 200; // デッドゾーンの閾値
 

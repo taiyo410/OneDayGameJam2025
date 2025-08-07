@@ -50,6 +50,9 @@ void ResourceManager::Init(void)
 	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_OBJ + "Button.png");
 	resourcesMap_.emplace(SRC::PUSH_BUTTON, std::move(res));
 
+	res = std::make_unique<Resource>(Resource::TYPE::IMGS, PATH_OBJ + "Numbers.png");
+	resourcesMap_.emplace(SRC::NUMBER_IMG, std::move(res));
+
 
 	//セレクトシーン画像
 	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "SelectEneless.png");

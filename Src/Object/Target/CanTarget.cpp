@@ -78,6 +78,7 @@ void CanTarget::Update(void)
 	if (trans_.pos.x < -600.0f)
 	{
 		trans_.pos.x = -600.0f;
+
 	}
 	if (trans_.pos.x > 600.0f)
 	{

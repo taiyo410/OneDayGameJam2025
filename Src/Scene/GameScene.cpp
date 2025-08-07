@@ -39,29 +39,78 @@ void GameScene::Init(void)
 	backGroundImg_ = res.Load(ResourceManager::SRC::BACKGROUND_TITLE).handleId_;
 	fenceModel_ = MV1LoadModel((Application::PATH_MODEL + "fence.mv1").c_str());
 
-	for (int i = 0; i < 1; i++)
-	{
-		auto player = std::make_unique<Player>();
-		player->Init();
-		players_.push_back(std::move(player));
-	}
 
+	SelectScene::SELECT_ID selectId = DataBank::GetInstance().GetSelectId();
+	float posX = -500.0f;
+	switch (selectId)
+	{
+	case SelectScene::SELECT_ID::NOME:
+		break;
+	case SelectScene::SELECT_ID::MULTI:
+	{
+		//プレイヤー人数の取得
+		int pNum = DataBank::GetInstance().GetPlayerNum();
+		for (int i = 0; i < pNum; i++)
+		{
+			auto player = std::make_unique<Player>(i);
+			player->Init();
+			players_.push_back(std::move(player));
+		}
+		for (int i = 0; i < pNum; i++)
+		{
+			auto target = std::make_unique<CanTarget>();
+			target->Init();
+			target->SetPos({ posX + i * 250.0f, 0.0f,150.0f });
+			targets_.push_back(std::move(target));
+		}
+		modeUpdate_ = std::bind(&GameScene::CanRule, this);
+	}
+		break;
+	case SelectScene::SELECT_ID::ENDLESS:
+		for (int i = 0; i < 1; i++)
+		{
+			auto player = std::make_unique<Player>(i);
+			player->Init();
+			players_.push_back(std::move(player));
+		}
+		
+		for (int i = 0; i < 1; i++)
+		{
+			auto target = std::make_unique<CanTarget>();
+			target->Init();
+			target->SetPos({ posX + i * 250.0f, 0.0f,150.0f });
+			targets_.push_back(std::move(target));
+		}
+		modeUpdate_ = std::bind(&GameScene::CanRule, this);
+		break;
+	case SelectScene::SELECT_ID::PANEL:
+		for (int i = 0; i < 1; i++)
+		{
+			auto player = std::make_unique<Player>(i);
+			player->Init();
+			players_.push_back(std::move(player));
+		}
+		for (int i = 0; i < 5; i++)
+		{
+			auto target = std::make_unique<PanelTarget>();
+			target->Init();
+			target->SetPos({ posX + i * 250.0f, 0.0f,150.0f });
+			targets_.push_back(std::move(target));
+		}
+		modeUpdate_ = std::bind(&GameScene::PannelRule, this);
+		break;
+	default:
+		break;
+	}
 	effec_ = std::make_unique<EffectController>();
 	effec_->Add(0, (Application::PATH_EFFECT + "Hit.efkefc"));
 
 	
 #ifdef _DEBUG
 
-	float posX = -500.0f;
-	for (int i = 0; i < 5; i++)
-	{
-		auto target = std::make_unique<CanTarget>();
-		target->Init();
-		target->SetPos({ posX + i * 250.0f, 0.0f,150.0f });
-		targets_.push_back(std::move(target));
-}
 
-	modeUpdate_ = std::bind(&GameScene::CanRule, this);
+
+
 #endif // _DEBUG
 	
 #ifdef NDEBUG 
@@ -75,12 +124,12 @@ void GameScene::Init(void)
 		targets_.push_back(std::move(target));
 	}
 
-	modeUpdate_ = std::bind(&GameScene::PannelRule, this);
+	
 #endif // NDEBUG
 
 	// マウスを非表示状態にする
 	SetMouseDispFlag(false);
-	modeUpdate_ = std::bind(&GameScene::PannelRule, this);
+	//modeUpdate_ = std::bind(&GameScene::PannelRule, this);
 	//modeUpdate_ = std::bind(&GameScene::PannelRule, this);
 }
 
@@ -224,7 +273,7 @@ void GameScene::CanRule()
 				//ポイント計算
 				if (target->IsScore())//ポイント加算
 				{
-
+					player->AddPoint(ADD_POINT);
 				}
 
 			}
