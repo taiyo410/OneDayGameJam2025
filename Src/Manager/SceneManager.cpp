@@ -7,11 +7,15 @@
 #include "../Application.h"
 #include "../Common/Fader.h"
 
+#include "./ResourceManager.h"
+
 #include "../Scene/SceneBase.h"
-#include "../Scene/SelecteScene.h"
+#include "../Scene/SelectScene.h"
 #include "../Scene/TitleScene.h"
 #include "../Scene/GameScene.h"
 #include "../Scene/ResultScene.h"
+
+#include"DataBank.h"
 
 #include "Camera.h"
 
@@ -69,6 +73,10 @@ void SceneManager::Init(void)
 	isSceneChanging_ = false;
 
 	totalGameTime_ = 0.0f;
+
+	//データバンクの作成
+	DataBank::CreateInstance();
+
 
 	// 3D用の設定
 	Init3D();
@@ -166,7 +174,7 @@ void SceneManager::Draw(void)
 void SceneManager::Destroy(void)
 {
 	DeleteGraph(mainScreen_);
-
+	DataBank::GetInstance().Destroy();
 	if (capturedScreenGraph_ != -1)
 	{
 		DeleteGraph(capturedScreenGraph_);
@@ -211,10 +219,8 @@ const int& SceneManager::GetMainScreen(void)
 
 void SceneManager::DoChangeScene(SCENE_ID sceneId)
 {
-
-
 	// リソースの解放
-	//ResourceManager::GetInstance().Release();
+	ResourceManager::GetInstance().SceneChangeRelease();
 
 	// シーンを変更する
 	sceneId_ = sceneId;
@@ -222,6 +228,7 @@ void SceneManager::DoChangeScene(SCENE_ID sceneId)
 	// 現在のシーンを解放
 	if (scene_ != nullptr)
 	{
+		scene_->Release();
 		scene_.reset();
 	}
 
@@ -231,7 +238,7 @@ void SceneManager::DoChangeScene(SCENE_ID sceneId)
 		scene_ = std::make_unique<TitleScene>();
 		break;
 	case SCENE_ID::SELECT:
-		scene_ = std::make_unique<SelecteScene>();
+		scene_ = std::make_unique<SelectScene>();
 		break;
 	case SCENE_ID::GAME:
 		scene_ = std::make_unique<GameScene>();

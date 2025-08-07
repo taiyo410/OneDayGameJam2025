@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-
+#include"../Scene/SelectScene.h"
 class DataBank
 {
 public:	
@@ -45,7 +45,18 @@ public:
 	/// <returns>プレイヤー人数</returns>
 	int GetPlayerNum(void);
 
+	/// <summary>
+	/// セレクトシーンのIDを取得
+	/// </summary>
+	/// <param name="_id"></param>
+	/// <returns>セレクトID</returns>
+	const SelectScene::SELECT_ID GetSelectId(void)const;
 
+	/// <summary>
+	/// セレクトIDを設定
+	/// </summary>
+	/// <param name="_id"></param>
+	void SetSelectId(const SelectScene::SELECT_ID _id);
 
 
 
@@ -59,5 +70,8 @@ private:
 	~DataBank(void);
 	int playerNum_;		//プレイヤーの人数
 	int maxPlayerNum_;	//コントローラー数よりプレイヤー人数が多くならないようにする
+
+	SelectScene::SELECT_ID selectId_;	//選択シーンのID
+
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "SceneBase.h"
-class SelecteScene :
+class SelectScene :
     public SceneBase
 {
 public:
@@ -16,10 +16,10 @@ public:
 
 
 	// コンストラクタ
-	SelecteScene(void);
+	SelectScene(void);
 
 	// デストラクタ
-	~SelecteScene(void);
+	~SelectScene(void);
 
 	void Init(void) override;
 	void Update(void) override;

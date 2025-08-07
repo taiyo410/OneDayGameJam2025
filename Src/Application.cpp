@@ -108,6 +108,7 @@ void Application::Destroy(void)
 
 	SceneManager::GetInstance().Destroy();
 	InputManager::GetInstance().Destroy();
+	ResourceManager::GetInstance().Release();
 
 	delete instance_;
 
