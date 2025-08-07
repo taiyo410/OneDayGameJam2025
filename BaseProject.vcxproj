@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Manager\Camera.cpp" />
+    <ClCompile Include="Src\Object\Common\EffectController.cpp" />
     <ClCompile Include="Src\Object\Target\CanTarget.cpp" />
     <ClCompile Include="Src\Object\Target\PanelTarget.cpp" />
     <ClCompile Include="Src\Scene\SelecteScene.cpp" />
@@ -47,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Manager\Camera.h" />
+    <ClInclude Include="Src\Object\Common\EffectController.h" />
     <ClInclude Include="Src\Object\Target\CanTarget.h" />
     <ClInclude Include="Src\Object\Target\PanelTarget.h" />
     <ClInclude Include="Src\Scene\SelecteScene.h" />

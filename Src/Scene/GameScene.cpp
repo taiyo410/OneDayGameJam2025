@@ -6,6 +6,8 @@
 
 #include "../Manager/Camera.h"
 
+#include "../Object/Common/EffectController.h"
+
 #include "../Object/Player/Player.h"
 
 #include "../Object/Target/TargetBase.h"
@@ -36,6 +38,9 @@ void GameScene::Init(void)
 
 	player_ = std::make_unique<Player>();
 	player_->Init();
+
+	effec_ = std::make_unique<EffectController>();
+
 
 	float posX = -500.0f;
 	for (int i = 0; i < 5; i++)

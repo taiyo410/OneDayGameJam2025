@@ -6,6 +6,8 @@
 class Player;
 class TargetBase;
 
+class EffectController;
+
 class GameScene :
     public SceneBase
 {
@@ -34,6 +36,7 @@ private:
 
 	std::vector<std::unique_ptr<TargetBase>> targets_;
 
+	std::unique_ptr<EffectController> effec_;
 
 	void PannelRule();
 	void CanRule();
