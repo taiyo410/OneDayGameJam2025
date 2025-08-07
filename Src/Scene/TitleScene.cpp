@@ -41,3 +41,8 @@ void TitleScene::Draw(void)
 void TitleScene::Release(void)
 {
 }
+
+void TitleScene::GetCenterPos(int CenterPosX, int CenterPosY)
+{
+
+}

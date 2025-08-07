@@ -19,6 +19,9 @@ public:
 	void Draw(void) override;
 	void Release(void) override;
 
+	//画像の中心座標を取得する関数
+	void GetCenterPos(int CenterPosX, int CenterPosY);
+
 private:
 
 	//背景画像用ハンドル
