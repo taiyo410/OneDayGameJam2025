@@ -30,6 +30,9 @@ void ResourceManager::Init(void)
 
 	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "crosshair184.png");
 	resourcesMap_.emplace(SRC::CROSSHAIR, std::move(res));
+
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "select.png");
+	resourcesMap_.emplace(SRC::SELECTIMG, std::move(res));
 }
 
 void ResourceManager::SceneChangeRelease(void)
