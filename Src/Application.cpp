@@ -3,7 +3,7 @@
 
 #include "Manager/SceneManager.h"
 #include "Manager/InputManager.h"
-
+#include "Manager/ResourceManager.h"
 #include "Application.h"
 
 Application* Application::instance_ = nullptr;
@@ -53,6 +53,10 @@ void Application::Init(void)
 
 	SceneManager::CreateInstance();
 	InputManager::CreateInstance();
+
+	// ƒŠƒ\[ƒXŠÇ—‰Šú‰»
+	ResourceManager::CreateInstance();
+	ResourceManager::GetInstance().Init();
 
 }
 
