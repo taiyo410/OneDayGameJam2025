@@ -132,3 +132,15 @@ void EffectController::Update(int type)
 		StopEffekseer3DEffect(effects_[type]->PlayId_);
 	}
 }
+
+void EffectController::Draw(int type, const VECTOR pos)
+{
+	// 指定されたエフェクトが存在しない場合は処理しない
+	auto it = effects_.find(type);
+	if (it == effects_.end()) {
+		return;
+	}
+
+	DrawRotaGraph(pos.x, pos.y, 1.0f, 0.0f, effects_[type]->PlayId_, true);
+}
+
