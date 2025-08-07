@@ -40,13 +40,14 @@ void SelecteScene::Update(void)
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME);
 	}
 
-	multiImgScl_ = 0.5;
-	endlessImgScl_ = 0.5;
+	multiImgScl_ = 0.4f;
+	endlessImgScl_ = 0.4f;
+	panelImgScl_ = 0.4f;
 
 	int selectIdCnt_ = static_cast<int>(selectId_);
 
 	if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_DOWN)
-		&& selectIdCnt_ < 2)
+		&& selectIdCnt_ < 3)
 	{
 		selectIdCnt_++;
 	}
@@ -63,14 +64,21 @@ void SelecteScene::Update(void)
 
 	if(selectId_ == SELECT_ID::MULTI)
 	{
-		multiImgScl_ = (std::sin(sclTime_) * 0.5f + 0.5f) * (2.5f - 2.0f) + 2.0f; 
+		multiImgScl_ = (std::sin(sclTime_) * 0.5f + 0.5f) * (1.8f - 1.5f) + 1.5f;
 		multiImgScl_ *= 0.25f;
+		sclTime_ += 0.05f;
+	}
+
+	if (selectId_ == SELECT_ID::PANEL)
+	{
+		panelImgScl_ = (std::sin(sclTime_) * 0.5f + 0.5f) * (1.8f - 1.5f) + 1.5f;
+		panelImgScl_ *= 0.25f;
 		sclTime_ += 0.05f;
 	}
 
 	if (selectId_ == SELECT_ID::ENDLESS)
 	{
-		endlessImgScl_ = (std::sin(sclTime_) * 0.5f + 0.5f) * (2.5f - 2.0f) + 2.0f;
+		endlessImgScl_ = (std::sin(sclTime_) * 0.5f + 0.5f) * (1.8f - 1.5f) + 1.5f;
 		endlessImgScl_ *= 0.25f;
 		sclTime_ += 0.05f;
 	}
@@ -78,7 +86,7 @@ void SelecteScene::Update(void)
 
 void SelecteScene::Draw(void)
 {
-	
+
 	//‰æ–Ê’†SÀ•W
 	Vector2 basePos = { Application::SCREEN_SIZE_X / 2 ,Application::SCREEN_SIZE_Y / 2 };
 
@@ -86,11 +94,12 @@ void SelecteScene::Draw(void)
 	DrawRotaGraph((Application::SCREEN_SIZE_X / 2), Application::SCREEN_SIZE_Y / 2, 1.2f, 0.0f, backImg_, true);
 
 
-	DrawRotaGraph(basePos.x, basePos.y - 125, multiImgScl_, 0.0f, multiImg_, true);
-	DrawRotaGraph(basePos.x, basePos.y + 125, endlessImgScl_, 0.0f, endlessImg_, true);
+	DrawRotaGraph(basePos.x, basePos.y - 170, multiImgScl_, 0.0f, multiImg_, true);
+	DrawRotaGraph(basePos.x, basePos.y, endlessImgScl_, 0.0f, endlessImg_, true);
+	DrawRotaGraph(basePos.x, basePos.y + 170, panelImgScl_, 0.0f, panelImg_, true);
 
-	DrawRotaGraph(basePos.x - 400, basePos.y, 0.25, -0.25f, princessImg_, true);
-	DrawRotaGraph(basePos.x + 400, basePos.y, 0.25, 0.25f, banDitImg_, true);
+	DrawRotaGraph(basePos.x - 375, basePos.y, 0.4, -0.25f, princessImg_, true);
+	DrawRotaGraph(basePos.x + 375, basePos.y, 0.4, 0.25f, banDitImg_, true);
 }
 
 void SelecteScene::Release(void)
@@ -98,4 +107,7 @@ void SelecteScene::Release(void)
 	DeleteGraph(backImg_);
 	DeleteGraph(multiImg_);
 	DeleteGraph(endlessImg_);
+	DeleteGraph(panelImg_);
+	DeleteGraph(princessImg_);
+	DeleteGraph(banDitImg_);
 }

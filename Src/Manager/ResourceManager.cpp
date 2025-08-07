@@ -54,7 +54,7 @@ void ResourceManager::Init(void)
 	//セレクトシーン画像
 	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "SelectEneless.png");
 	resourcesMap_.emplace(SRC::SELECT_ENDLESS, std::move(res));
-	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "SelectMelti.png");
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "SelectMalti.png");
 	resourcesMap_.emplace(SRC::SELECT_MELTI, std::move(res));
 	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "BackSelect.png");
 	resourcesMap_.emplace(SRC::BACKSELECT, std::move(res));
