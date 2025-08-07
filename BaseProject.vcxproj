@@ -19,8 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Manager\Camera.cpp" />
+    <ClCompile Include="Src\Object\Target\CanTarget.cpp" />
+    <ClCompile Include="Src\Object\Target\PanelTarget.cpp" />
     <ClCompile Include="Src\Scene\SelecteScene.cpp" />
-    <ClCompile Include="Src\Object\Target\Panel.cpp" />
     <ClCompile Include="Src\Manager\Resource.cpp" />
     <ClCompile Include="Src\Manager\ResourceManager.cpp" />
     <ClCompile Include="Src\Object\Common\AnimationController.cpp" />
@@ -44,8 +46,10 @@
     <ClCompile Include="Src\Object\Target\TargetBase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Manager\Camera.h" />
+    <ClInclude Include="Src\Object\Target\CanTarget.h" />
+    <ClInclude Include="Src\Object\Target\PanelTarget.h" />
     <ClInclude Include="Src\Scene\SelecteScene.h" />
-    <ClInclude Include="Src\Object\Target\Panel.h" />
     <ClInclude Include="Src\Manager\Resource.h" />
     <ClInclude Include="Src\Manager\ResourceManager.h" />
     <ClInclude Include="Src\Object\Common\AnimationController.h" />

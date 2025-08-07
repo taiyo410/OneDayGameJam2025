@@ -1,3 +1,4 @@
+
 #include "../../Application.h"
 #include "../../Utility/AsoUtility.h"
 
@@ -20,17 +21,18 @@ void TargetBase::Load(void)
 void TargetBase::Init(void)
 {
 	// ƒ‚ƒfƒ‹‚ÌŠî–{Ý’è
-	trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Friend/friend.mv1").c_str());
+	trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Enemy/enemy.mv1").c_str());
 	trans_.scl = AsoUtility::VECTOR_ONE;
 	// ‰ŠúÀ•W
 	trans_.pos = { 0.0f,0.0f,0.0f };
-	trans_.quaRot = Quaternion();
+	trans_.quaRot =
+		Quaternion::Euler({ AsoUtility::Deg2RadF(90.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
 	trans_.quaRotLocal =
-		Quaternion::Euler({ AsoUtility::Deg2RadF(10.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
+		Quaternion::Euler({ AsoUtility::Deg2RadF(0.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
 	trans_.Update();
 
-	mRot_ = 0.0f;
-	goalRot_ = 90.0f;
+	mRot_ = 90.0f;
+	goalRot_ = 0.0f;
 }
 
 void TargetBase::Update(void)
@@ -49,7 +51,7 @@ void TargetBase::Update(void)
 	}
 	else if (goalRot_ == 0.0f)
 	{
-		rot = -10;
+		rot = -10; 
 		rotPow = rotPow.Mult(
 			Quaternion::AngleAxis(
 				AsoUtility::Deg2RadF(AsoUtility::Deg2RadF(rot)), AsoUtility::AXIS_X
@@ -57,11 +59,11 @@ void TargetBase::Update(void)
 	}
 
 	mRot_ += AsoUtility::Deg2RadF(rot);
-	if (mRot_ >= 90.0f && goalRot_ == 90.0f)
+	if (mRot_ >= 90.0f&& goalRot_ == 90.0f)
 	{
 		goalRot_ = 0.0f;
 	}
-	if (mRot_ <= 0.0f && goalRot_ == 0.0f)
+	if (mRot_ <= 0.0f&& goalRot_ == 0.0f)
 	{
 		goalRot_ = 90.0f;
 	}
@@ -83,6 +85,12 @@ void TargetBase::Draw(void)
 	DrawBox(start.x, start.y, end.x, end.y, 0xff0000, false);
 
 	DrawFormatString(100, 16, 0x000000, "%2.f,%2.f,%2.f", twoDPos.x, twoDPos.y, twoDPos.z);
+}
+
+void TargetBase::SetPos(VECTOR pos)
+{
+	trans_.pos = pos;
+	trans_.Update();
 }
 
 void TargetBase::Release(void)

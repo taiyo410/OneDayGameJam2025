@@ -13,12 +13,14 @@ public:
 
 	// デストラクタ
 	virtual ~TargetBase(void);
-
+	
 	virtual void Load(void)override;
 
 	virtual void Init(void)override;
 	virtual void Update(void)override;
 	virtual void Draw(void)override;
+
+	void SetPos(VECTOR pos);
 
 	virtual void Release(void);
 
@@ -28,7 +30,7 @@ protected:
 	enum class STATE
 	{
 		ALIVE
-		, DEATH
+		,DEATH
 	};
 
 	STATE state_;
