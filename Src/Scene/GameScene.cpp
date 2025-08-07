@@ -58,7 +58,13 @@ void GameScene::Update(void)
 	{
 		target->Update();
 
-		if (player_->IsAttrck() && target->InRange(player_->GetReticle()))
+		if (player_->IsAttrck())
+		{
+			int x = 0;
+		}
+
+		if (player_->IsAttrck() && target->InRange(player_->GetReticle())
+			&& target->IsState(TargetBase::STATE::ALIVE))
 		{
 			//Õ“Ë
 			target->ChangeState(TargetBase::STATE::POP_DOWN);
@@ -92,7 +98,13 @@ void GameScene::Draw(void)
 
 	DrawSphere3D({ 0,0,0 }, 10, 10, 0xff0000, 0xff0000, false);
 
-
+	for (auto& target : targets_)
+	{
+		if (target->InRange(player_->GetReticle()))
+		{
+			target->DebugDraw();
+		}
+	}
 }
 
 void GameScene::Release(void)

@@ -2,6 +2,7 @@
 #include "../../Application.h"
 #include "../../Utility/AsoUtility.h"
 #include "../../Manager/SceneManager.h"
+#include "../../Manager/Camera.h"
 
 
 #include "TargetBase.h"
@@ -78,6 +79,20 @@ void TargetBase::Draw(void)
 	DrawBox(start.x, start.y, end.x, end.y, 0xff0000, false);
 
 	DrawFormatString(100, 16, 0x000000, "%2.f,%2.f,%2.f", twoDPos.x, twoDPos.y, twoDPos.z);
+
+	DrawFormatString(twoDPos.x, 500, 0xffffff, "%2.f", twoDPos.x);
+	DrawFormatString(twoDPos.x, 516, 0xffffff, "%2.f", twoDPos.y);
+	DrawFormatString(twoDPos.x, 532, 0xffffff, "%.2f", stepTime_);
+}
+
+void TargetBase::DebugDraw(void)
+{
+	VECTOR twoDPos = ConvWorldPosToScreenPos(trans_.pos);
+	Vector2 start = Vector2(twoDPos.x - 30, twoDPos.y - 50);
+	Vector2 end = Vector2(twoDPos.x + 30, twoDPos.y + 50);
+
+	DrawBox(start.x, start.y, end.x, end.y, 0xff0000, true);
+	DrawCircle(twoDPos.x, twoDPos.y, 10, 0x00ff00);
 }
 
 void TargetBase::SetPos(VECTOR pos)
@@ -92,6 +107,9 @@ void TargetBase::Release(void)
 
 bool TargetBase::InRange(Vector2 mPos)
 {
+	SetDrawScreen(SceneManager::GetInstance().GetMainScreen());
+	SceneManager::GetInstance().GetCamera().lock()->SetBeforeDraw();
+
 	VECTOR twoDPos = ConvWorldPosToScreenPos(trans_.pos);
 	Vector2 start = Vector2(twoDPos.x - 30, twoDPos.y - 50);
 	Vector2 end = Vector2(twoDPos.x + 30, twoDPos.y + 50);
@@ -111,7 +129,7 @@ void TargetBase::ChangeState(STATE state)
 
 		goalQua_ =
 			Quaternion::Euler({ AsoUtility::Deg2RadF(0.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
-		limitTime_ = 10.0f;//完了までの時間
+		limitTime_ = 1.0f;//完了までの時間
 		stepTime_ = limitTime_;//経過時間
 
 			break;
@@ -119,25 +137,17 @@ void TargetBase::ChangeState(STATE state)
 
 		goalQua_ =
 			Quaternion::Euler({ AsoUtility::Deg2RadF(90.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
-		limitTime_ = 10.0f;//完了までの時間
+		limitTime_ = 1.0f;//完了までの時間
 		stepTime_ = limitTime_;//経過時間
 
 			break;
 	case STATE::ALIVE:
 
-		goalQua_ =
-			Quaternion::Euler({ AsoUtility::Deg2RadF(0.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
-		limitTime_ = 0.0f;//完了までの時間
-		stepTime_ = limitTime_;//経過時間
-
+		
 			break;
 	case STATE::DEATH:
 
-		goalQua_ =
-			Quaternion::Euler({ AsoUtility::Deg2RadF(90.0f), AsoUtility::Deg2RadF(0.0f),  AsoUtility::Deg2RadF(0.0f) });
-		limitTime_ = 0.0f;//完了までの時間
-		stepTime_ = limitTime_;//経過時間
-
+		
 			break;
 	}
 

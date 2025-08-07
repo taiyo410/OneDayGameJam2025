@@ -28,6 +28,7 @@ public:
 	virtual void Init(void)override;
 	virtual void Update(void)override;
 	virtual void Draw(void)override;
+	void DebugDraw(void);
 
 	void SetPos(VECTOR pos);
 

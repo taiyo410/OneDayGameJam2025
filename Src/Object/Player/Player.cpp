@@ -48,6 +48,7 @@ void Player::Draw(void)
 	DrawRotaGraph(reticlePos_.x, reticlePos_.y, 1.0f, 0.0f, reticleHndle_, true);
 
 	DrawFormatString(100, 100, 0xffffff, "%d", isAttrck_);
+	DrawFormatString(100, 500, 0xffffff, "%d,%d", reticlePos_.x, reticlePos_.y);
 }
 
 void Player::Release(void)
