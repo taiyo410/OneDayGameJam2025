@@ -18,5 +18,9 @@ public:
 	void Draw(void) override;
 	void Release(void) override;
 
+private:
+
+	int reticleHndle_;
+
 };
 
