@@ -46,7 +46,7 @@ public:
 	float GetDeltaTime(void) const;
 
 	// カメラの取得
-	//std::weak_ptr<Camera> GetCamera(void) const;
+	std::weak_ptr<Camera> GetCamera(void) const;
 	//スクリーンの取得
 	const int& GetMainScreen(void);
 
@@ -69,7 +69,7 @@ private:
 	std::unique_ptr<SceneBase> scene_;
 
 	// カメラ
-	//std::shared_ptr<Camera> camera_;
+	std::shared_ptr<Camera> camera_;
 
 	// シーン遷移中判定
 	bool isSceneChanging_;

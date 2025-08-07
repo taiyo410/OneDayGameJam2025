@@ -18,7 +18,7 @@ public:
 	void Release(void);
 
 	const Vector2 GetReticle(void)const { return reticlePos_; }
-	const bool IsAttrck(void)const { return IsAttrck_; }
+	const bool IsAttrck(void)const { return isAttrck_; }
 
 private:
 
@@ -28,7 +28,7 @@ private:
 
 	//‘€ì•û–@•Ê‚ÌXV
 	std::function<void(void)> typeUpdate_;
-	bool IsAttrck_;
+	bool isAttrck_;
 
 	void UpdateMouse(void);
 	void UpdateController(void);

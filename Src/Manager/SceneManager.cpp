@@ -13,6 +13,8 @@
 #include "../Scene/GameScene.h"
 #include "../Scene/ResultScene.h"
 
+#include "Camera.h"
+
 #include "SceneManager.h"
 
 SceneManager* SceneManager::instance_ = nullptr;
@@ -27,7 +29,7 @@ SceneManager::SceneManager(void)
 
 	isSceneChanging_ = false;
 
-	//camera_ = nullptr;
+	camera_ = nullptr;
 
 
 }
@@ -61,8 +63,8 @@ void SceneManager::Init(void)
 	fader_->Init();
 
 	// カメラ
-	/*camera_ = std::make_shared<Camera>();
-	camera_->Init();*/
+	camera_ = std::make_shared<Camera>();
+	camera_->Init();
 
 	isSceneChanging_ = false;
 
@@ -128,7 +130,7 @@ void SceneManager::Update(void)
 	}
 
 	// カメラ更新
-	//camera_->Update();
+	camera_->Update();
 }
 
 void SceneManager::Draw(void)
@@ -142,7 +144,7 @@ void SceneManager::Draw(void)
 	ClearDrawScreen();
 
 	// カメラ設定
-	//camera_->SetBeforeDraw();
+	camera_->SetBeforeDraw();
 
 	// Effekseerにより再生中のエフェクトを更新する。
 	UpdateEffekseer3D();
@@ -197,10 +199,10 @@ float SceneManager::GetDeltaTime(void) const
 }
 
 
-//std::weak_ptr<Camera> SceneManager::GetCamera(void) const
-//{
-//	return camera_;
-//}
+std::weak_ptr<Camera> SceneManager::GetCamera(void) const
+{
+	return camera_;
+}
 
 const int& SceneManager::GetMainScreen(void)
 {

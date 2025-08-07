@@ -1,9 +1,11 @@
 #pragma once
 #include <memory>
+#include<functional>
 #include "SceneBase.h"
 
 class Player;
 class TargetBase;
+
 class GameScene :
     public SceneBase
 {
