@@ -12,6 +12,8 @@ TargetBase::TargetBase(void)
 
 	limitTime_ = 0.0f;
 	stepTime_ = 0.0f;
+
+	isScorePlus_ = false;
 }
 
 TargetBase::~TargetBase(void)
@@ -30,9 +32,11 @@ void TargetBase::Init(void)
 
 	if (i == 0){
 		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Enemy/enemy.mv1").c_str());
+		isScorePlus_ = true;
 	}
 	else{
 		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Friend/friend.mv1").c_str());
+		isScorePlus_ = false;
 	}
 	trans_.scl = AsoUtility::VECTOR_ONE;
 	// èâä˙ç¿ïW
@@ -45,7 +49,7 @@ void TargetBase::Init(void)
 
 	ChangeState(STATE::POP_UP);
 
-	size_=Vector2(180,300);
+	size_ = Vector2(180, 300);
 }
 
 void TargetBase::Update(void)
@@ -181,10 +185,19 @@ void TargetBase::CharChange()
 	if (i==0)
 	{
 		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Enemy/enemy.mv1").c_str());
+		isScorePlus_ = true;
 	}
 	else
 	{
 		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Friend/friend.mv1").c_str());
+		isScorePlus_ = false;
 	}
 	trans_.Update();
+}
+
+const VECTOR TargetBase::GetCenter(void)
+{
+	
+	const auto& cPos = VAdd(trans_.pos, VScale(trans_.GetUp(), size_.y / 2));
+	return cPos;
 }

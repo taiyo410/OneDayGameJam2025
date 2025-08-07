@@ -39,9 +39,13 @@ public:
 	bool InRange(Vector2F mPos);
 	const bool IsState(STATE state)const { return state_ == state; }
 
+	const bool IsScore(void)const { return isScorePlus_; }
+
 	void ChangeState(STATE state);
 
 	void CharChange();
+
+	const VECTOR GetCenter(void);
 
 protected:
 
@@ -49,6 +53,7 @@ protected:
 
 	STATE state_;
 
+	bool isScorePlus_;
 
 	Quaternion goalQua_;
 	float limitTime_;

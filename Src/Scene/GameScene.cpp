@@ -104,7 +104,6 @@ void GameScene::Draw(void)
 
 	DrawSphere3D({ 0,0,0 }, 10, 10, 0xff0000, 0xff0000, false);
 
-	
 }
 
 void GameScene::Release(void)
@@ -142,7 +141,18 @@ void GameScene::PannelRule()
 			{
 				//衝突
 				target->ChangeState(TargetBase::STATE::POP_DOWN);
-				effec_->Play(0, { player->GetReticle().x,player->GetReticle().y,0 });
+				effec_->Play(0, target->GetCenter(), { 0.0f,0.0f,0.0f }, 10.0f);
+
+				//ポイント計算
+				if (target->IsScore())//ポイント加算
+				{
+
+				}
+				else if (!target->IsScore())//ポイント減算
+				{
+
+				}
+
 			}
 		}
 	}
