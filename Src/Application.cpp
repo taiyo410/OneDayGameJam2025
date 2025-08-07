@@ -51,12 +51,14 @@ void Application::Init(void)
 	// キー制御初期化
 	SetUseDirectInputFlag(true);
 
-	SceneManager::CreateInstance();
-	InputManager::CreateInstance();
-
 	// リソース管理初期化
 	ResourceManager::CreateInstance();
 	ResourceManager::GetInstance().Init();
+
+	SceneManager::CreateInstance();
+	InputManager::CreateInstance();
+
+
 
 }
 
