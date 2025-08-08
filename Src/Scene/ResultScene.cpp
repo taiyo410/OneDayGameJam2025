@@ -62,7 +62,7 @@ void ResultScene::Draw(void)
 	DrawRotaGraph((Application::SCREEN_SIZE_X / 2), Application::SCREEN_SIZE_Y / 3 - 75, 0.25f, 0.0f, winImg_, true);
 	DrawRotaGraph((Application::SCREEN_SIZE_X / 2- 150), Application::SCREEN_SIZE_X / 2, 0.25f, 0.0f, scoreImg_, true);
 
-	ruleDraw_();
+	MultiDraw(); 
 }
 
 void ResultScene::Release(void)
@@ -73,35 +73,33 @@ void ResultScene::Release(void)
 void ResultScene::MultiDraw(void)
 {
 	std::vector<int>playerPoints = DataBank::GetInstance().GetPlayerScores();
-	int numberDigit = AsoUtility::GetDigitCount(playerPoints[0]);
+
+	int index = 0;
+	int i = 0;
+	int hiScore = 0;
+	for (auto& point : playerPoints)
+	{
+		if (point > hiScore)
+		{
+			index = i;
+			hiScore = point;
+		}
+
+		i++;
+	}
+	int numberDigit = AsoUtility::GetDigitCount(hiScore);
 
 	//ècç¿ïWÇå≈íË
 	constexpr int ROUND_POS_X = Application::SCREEN_SIZE_X / 2 - 100;
-	constexpr int NUMBER_POS_X = Application::SCREEN_SIZE_X / 2 +230;
-	constexpr int NUMBER_OFFSET_X = 40;
+	constexpr int NUMBER_POS_X = Application::SCREEN_SIZE_X / 2 + 230;
+	constexpr int NUMBER_OFFSET_X = 75;
 	constexpr int POS_Y = Application::SCREEN_SIZE_X / 2;
-
-
 	for (int i = 0; i < numberDigit; i++)
 	{
-		int index = AsoUtility::GetDigit(playerPoints[0], numberDigit - 1 - i);
+		int index = AsoUtility::GetDigit(hiScore, numberDigit - 1 - i);
 
-		if (index == 0)
-		{
-			winPlyareImg_ = pAkaImg_;
-		}
-		if (index == 1)
-		{
-			winPlyareImg_ = pAoImg_;
-		}
-		if (index == 2)
-		{
-			winPlyareImg_ = pKiImg_;
-		}
-		if (index == 3)
-		{
-			winPlyareImg_ = pMidoriImg_;
-		}
+
+		
 
 
 		DrawRotaGraph(
@@ -114,8 +112,26 @@ void ResultScene::MultiDraw(void)
 			false
 		);
 
-		DrawRotaGraph((Application::SCREEN_SIZE_X / 2), Application::SCREEN_SIZE_Y / 2, 0.2f, 0.0f, winPlyareImg_, true);
 	}
+
+	if (index == 0)
+	{
+		winPlyareImg_ = pAkaImg_;
+	}
+	if (index == 1)
+	{
+		winPlyareImg_ = pAoImg_;
+	}
+	if (index == 2)
+	{
+		winPlyareImg_ = pKiImg_;
+	}
+	if (index == 3)
+	{
+		winPlyareImg_ = pMidoriImg_;
+	}
+	DrawRotaGraph((Application::SCREEN_SIZE_X / 2), Application::SCREEN_SIZE_Y / 2, 0.2f, 0.0f, winPlyareImg_, true);
+
 }
 
 void ResultScene::PanelDraw(void)
@@ -126,7 +142,7 @@ void ResultScene::PanelDraw(void)
 	//ècç¿ïWÇå≈íË
 	constexpr int ROUND_POS_X = Application::SCREEN_SIZE_X / 2 - 100;
 	constexpr int NUMBER_POS_X = Application::SCREEN_SIZE_X / 2 + 230;
-	constexpr int NUMBER_OFFSET_X = 40;
+	constexpr int NUMBER_OFFSET_X = 70;
 	constexpr int POS_Y = Application::SCREEN_SIZE_X / 2;
 
 

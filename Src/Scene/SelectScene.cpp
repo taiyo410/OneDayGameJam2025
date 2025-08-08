@@ -167,7 +167,7 @@ void SelectScene::Draw(void)
 
 	if (!isMultiSelect_)
 	{
-		DrawRotaGraph(basePos.x, basePos.y - 170, multiImgScl_, 0.0f, multiImg_, true);
+		DrawRotaGraph(basePos.x, basePos.y - 40, multiImgScl_, 0.0f, multiImg_, true);
 		//DrawRotaGraph(basePos.x, basePos.y, endlessImgScl_, 0.0f, endlessImg_, true);
 		DrawRotaGraph(basePos.x, basePos.y + 170, panelImgScl_, 0.0f, panelImg_, true);
 	}
@@ -193,13 +193,6 @@ void SelectScene::Draw(void)
 			false
 		);
 	}
-
-
-	if (isMultiSelect_)
-	{
-		DrawFormatString(50, 50, 0xFFFFFFFF, "PlayerNum(%d)", playerNum_);
-	}
-	
 }
 
 void SelectScene::Release(void)

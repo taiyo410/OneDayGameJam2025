@@ -30,7 +30,7 @@ private:
 	static constexpr int ADD_POINT = 2;
 
 	//Œ¸‚ç‚·ƒ|ƒCƒ“ƒg
-	static constexpr int SUB_POINT = -10;
+	static constexpr int SUB_POINT = -9;
 	//”wŒi
 	int fenceModel_;
 	int backGroundImg_;

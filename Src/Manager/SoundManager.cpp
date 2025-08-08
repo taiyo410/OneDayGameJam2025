@@ -34,7 +34,7 @@ void SoundManager::Init(void)
 	
 	//ƒoƒgƒ‹‚a‚f‚l
 	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "GameBGM.mp3");
-	res.ChengeMaxVolume(0.8f);
+	res.ChengeMaxVolume(1.3f);
 	soundMap_.emplace(SRC::GAME_BGM, res);
 
 
