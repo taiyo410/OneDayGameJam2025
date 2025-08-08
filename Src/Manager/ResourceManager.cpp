@@ -66,6 +66,20 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::BACKSELECT, std::move(res));
 	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "SelectPanel.png");
 	resourcesMap_.emplace(SRC::SELECT_PANEL, std::move(res));
+
+	//リザルトシーン画像
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "Score.png");
+	resourcesMap_.emplace(SRC::SCORE, std::move(res));
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "WIN.png");
+	resourcesMap_.emplace(SRC::WIN, std::move(res));
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "aka.png");
+	resourcesMap_.emplace(SRC::PLYER_AKA, std::move(res));
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "ao.png");
+	resourcesMap_.emplace(SRC::PLYER_AO, std::move(res));
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "ki.png");
+	resourcesMap_.emplace(SRC::PLYER_KI, std::move(res));
+	res = std::make_unique<Resource>(Resource::TYPE::IMG, PATH_IMG + "midori.png");
+	resourcesMap_.emplace(SRC::PLYER_MIDORI, std::move(res));
 }
 
 void ResourceManager::SceneChangeRelease(void)
