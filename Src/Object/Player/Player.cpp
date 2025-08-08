@@ -56,8 +56,14 @@ void Player::DrawUI(int i)
 {
 	Application::SCREEN_SIZE_Y / 2;
 
+	int ii = 0;
+	if (i >= 2)
+	{
+		ii = 1;
+	}
+
 	DrawFormatString(100, 100 + i * 20, 0xffffff, "%d", isAttrck_);
-	DrawFormatString((Application::SCREEN_SIZE_Y / 2 - 300) + i * 150, Application::SCREEN_SIZE_Y - 30, 0xffffff, "%d", point_);
+	DrawFormatString((Application::SCREEN_SIZE_X / 2 - 300) + i * 150 + (150 * ii), Application::SCREEN_SIZE_Y - 30, 0xffffff, "%d", point_);
 	//DrawFormatString(100, 500, 0xffffff, "%d,%d", reticlePos_.x, reticlePos_.y);
 	DrawFormatString(100, 500 + i * 20, 0xffffff, "%2.f,%2.f", reticlePos_.x, reticlePos_.y);
 }

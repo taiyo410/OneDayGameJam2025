@@ -92,7 +92,7 @@ bool Sound::Play(TIMES times, bool isForce)
 		return false;
 	}
 	int i = PlaySoundMem(handleId_, times == TIMES::ONCE ? DX_PLAYTYPE_BACK : DX_PLAYTYPE_LOOP, true);
-	//ChengeVolume(1.0f);
+	ChengeVolume(1.0f);
 	return i == 0 ? true : false;
 }
 

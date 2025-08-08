@@ -13,6 +13,8 @@ public:
 		//
 		//RESULT_BGM,		//リザルトシーンのBGM
 
+		TITLE_BGM,
+		SELECT_BGM,
 		GAME_BGM,
 		
 		//SE

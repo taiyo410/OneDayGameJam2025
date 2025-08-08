@@ -5,6 +5,8 @@
 #include "../Manager/InputManager.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/ResourceManager.h"
+#include "../Manager/SoundManager.h"
+
 #include "../Manager/DataBank.h"
 #include "SelectScene.h"
 
@@ -22,6 +24,8 @@ SelectScene::SelectScene(void)
 
 SelectScene::~SelectScene(void)
 {
+	SoundManager::GetInstance().AllStop();
+
 }
 
 void SelectScene::Init(void)
@@ -41,6 +45,9 @@ void SelectScene::Init(void)
 	sclTime_ = 0.0f;
 	isMultiSelect_ = false;
 	selectId_ = SELECT_ID::CAN;
+
+	SoundManager::GetInstance().Play(SoundManager::SRC::SELECT_BGM, Sound::TIMES::LOOP);
+
 }
 
 void SelectScene::Update(void)
@@ -48,6 +55,7 @@ void SelectScene::Update(void)
 
 	if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_SPACE))
 	{
+		SoundManager::GetInstance().Play(SoundManager::SRC::ENTER, Sound::TIMES::ONCE, true);
 		//選択されたIDに応じてシーンを変更
 		if (!isMultiSelect_)
 		{
@@ -66,6 +74,7 @@ void SelectScene::Update(void)
 	{
 		if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_LEFT))
 		{
+			SoundManager::GetInstance().Play(SoundManager::SRC::ENTER, Sound::TIMES::ONCE, true);
 			if (playerNum_ > PLAYER_MIN)
 			{
 				playerNum_--;
@@ -77,6 +86,7 @@ void SelectScene::Update(void)
 		}
 		else if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_RIGHT))
 		{
+			SoundManager::GetInstance().Play(SoundManager::SRC::ENTER, Sound::TIMES::ONCE, true);
 			if (playerNum_ < PLAYER_MAX)
 			{
 				playerNum_++;
@@ -88,11 +98,13 @@ void SelectScene::Update(void)
 		}
 		if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_BACK))
 		{
+			SoundManager::GetInstance().Play(SoundManager::SRC::ENTER, Sound::TIMES::ONCE, true);
 			isMultiSelect_ = false;
 			return;
 		}
 		if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_SPACE))
 		{
+			SoundManager::GetInstance().Play(SoundManager::SRC::ENTER, Sound::TIMES::ONCE, true);
 			DataBank::GetInstance().SetPlayerNum(playerNum_);
 			SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME);
 		}
@@ -107,12 +119,14 @@ void SelectScene::Update(void)
 	if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_DOWN)
 		&& selectIdCnt_ < 2)
 	{
+		SoundManager::GetInstance().Play(SoundManager::SRC::ENTER, Sound::TIMES::ONCE, true);
 		selectIdCnt_++;
 	}
 
 	if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_UP)
 		&& selectIdCnt_ > 1)
 	{
+		SoundManager::GetInstance().Play(SoundManager::SRC::ENTER, Sound::TIMES::ONCE,true);
 		selectIdCnt_--;
 	}
 

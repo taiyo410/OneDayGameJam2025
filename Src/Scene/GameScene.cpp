@@ -23,6 +23,7 @@
 
 GameScene::GameScene(void)
 {
+	limitTime_ = 60.0f;//ゲーム時間1分
 }
 
 GameScene::~GameScene(void)
@@ -51,21 +52,8 @@ void GameScene::Init(void)
 	effec_ = std::make_unique<EffectController>();
 	effec_->Add(0, (Application::PATH_EFFECT + "3DBlastEffect.efkefc"));
 
-//	
-//	
-//#ifdef NDEBUG 
-//	// 処理
-//	float posX = -500.0f;
-//	for (int i = 0; i < 5; i++)
-//	{
-//		auto target = std::make_unique<PanelTarget>();
-//		target->Init();
-//		target->SetPos({ posX + i * 250.0f, 0.0f,150.0f });
-//		targets_.push_back(std::move(target));
-//	}
-//
-//	
-//#endif // NDEBUG
+
+
 
 	// マウスを非表示状態にする
 	SetMouseDispFlag(false);
@@ -73,6 +61,23 @@ void GameScene::Init(void)
 
 void GameScene::Update(void)
 {
+
+	limitTime_ -= SceneManager::GetInstance().GetDeltaTime();
+	if (limitTime_ <= 0.0f)
+	{
+		// マウスを表示状態にする
+		SetMouseDispFlag(true);
+		std::vector<int>playersScore;
+		for (auto& player : players_)
+		{
+			int point = player->GetPoint();
+			playersScore.emplace_back(point);
+		}
+		DataBank::GetInstance().SetPlayerScores(playersScore);
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::RESULT);
+		return;
+	}
+
 	effec_->Update(0);
 
 	for (auto& player : players_)
@@ -108,7 +113,7 @@ void GameScene::Draw(void)
 {
 	DrawGraph(0, 0, backGroundImg_, true);
 
-	DrawBox(0, 0, 100, 100, 0x0000ff, true);
+	//DrawBox(0, 0, 100, 100, 0x0000ff, true);
 
 	for (auto& target : targets_)
 	{
@@ -116,7 +121,7 @@ void GameScene::Draw(void)
 	}
 
 
-	if ( DataBank::GetInstance().GetSelectId() == SelectScene::SELECT_ID::PANEL)
+	if (DataBank::GetInstance().GetSelectId() == SelectScene::SELECT_ID::PANEL)
 	{
 		MV1DrawModel(fenceModel_);
 	}
@@ -130,9 +135,28 @@ void GameScene::Draw(void)
 		i++;
 	}
 
+	std::string msg = std::to_string((int)limitTime_);
+	int cx = Application::SCREEN_SIZE_X / 2;
+	int cy = Application::SCREEN_SIZE_Y / 2;
+
+	SetFontSize(64);
+
+	int len = (int)strlen(msg.c_str());
+	int width = GetDrawStringWidth(msg.c_str(), len);
+	DrawFormatString(cx - (width / 2), 100, 0xffcefa, msg.c_str());
+
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	SetFontSize(16);
+
+#ifdef _DEBUG
+
+
 	DrawLine(Application::SCREEN_SIZE_X / 2, 0, Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y, 0x00ff00);
 
 	DrawSphere3D({ 0,0,0 }, 10, 10, 0xff0000, 0xff0000, false);
+
+#endif // DEBUG
+
 
 }
 
@@ -251,15 +275,17 @@ void GameScene::InitPlayerAndTarget(void)
 {
 	SelectScene::SELECT_ID selectId = DataBank::GetInstance().GetSelectId();
 	float posX = -500.0f;
+
+	//プレイヤー人数の取得
+	int pNum = DataBank::GetInstance().GetPlayerNum();
+
 	//セレクトシーンの選択
 	switch (selectId)
 	{
 	case SelectScene::SELECT_ID::NOME:
 		break;
 	case SelectScene::SELECT_ID::CAN://マルチモード（缶）
-	{
-		//プレイヤー人数の取得
-		int pNum = DataBank::GetInstance().GetPlayerNum();
+
 		for (int i = 0; i < pNum; i++)
 		{
 			auto player = std::make_unique<Player>(i);
@@ -274,27 +300,10 @@ void GameScene::InitPlayerAndTarget(void)
 			targets_.push_back(std::move(target));
 		}
 		modeUpdate_ = std::bind(&GameScene::CanRule, this);
-	}
-	break;
-	//case SelectScene::SELECT_ID::ENDLESS://ソロモード（缶）
-	//	for (int i = 0; i < 1; i++)
-	//	{
-	//		auto player = std::make_unique<Player>(i);
-	//		player->Init();
 
-	//		auto target = std::make_unique<CanTarget>(player);
-	//		target->Init();
-	//		target->SetHost(player->GetId());
-	//		target->SetPos({ posX + i * 250.0f, 400.0f,150.0f });
-
-	//		players_.push_back(std::move(player));
-
-	//		targets_.push_back(std::move(target));
-	//	}
-	//	modeUpdate_ = std::bind(&GameScene::CanRule, this);
 		break;
 	case SelectScene::SELECT_ID::PANEL://ソロモード（パネル）
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < pNum; i++)
 		{
 			auto player = std::make_unique<Player>(i);
 			player->Init();
