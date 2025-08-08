@@ -38,6 +38,8 @@ void PanelTarget::Init(void)
 	ChangeState(STATE::POP_UP);
 
 	size_ = Vector2(180, 300);
+
+	playerId_ = -1;
 }
 
 void PanelTarget::Update(void)

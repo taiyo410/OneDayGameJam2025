@@ -6,7 +6,7 @@
 
 #include "CanTarget.h"
 
-CanTarget::CanTarget(void)
+CanTarget::CanTarget(std::unique_ptr<Player>& player):player_(player)
 {
 	jumpPow_ = { 0.0f,0.0f,0.0f };
 }
@@ -74,7 +74,10 @@ void CanTarget::Update(void)
 	if (trans_.pos.y < 0.0f)
 	{
 		trans_.pos.y = 0.0f;
-		ChangeState(TargetBase::STATE::DEATH);
+		if (IsState(TargetBase::STATE::ALIVE))
+		{
+			ChangeState(TargetBase::STATE::POP_DOWN);
+		}
 	}
 	if (trans_.pos.x < -600.0f)
 	{
@@ -107,10 +110,17 @@ void CanTarget::Draw(void)
 	DrawFormatString(twoDPos.x, twoDPos.y, 0xffffff, "%2.f,%2.f", trans_.pos.x, trans_.pos.y);
 }
 
+void CanTarget::SetHost(int id)
+{
+	playerId_ = id;
+}
+
 void CanTarget::Hit(Vector2F mPos)
 {
 	SetDrawScreen(SceneManager::GetInstance().GetMainScreen());
 	SceneManager::GetInstance().GetCamera().lock()->SetBeforeDraw();
+
+	ChangeState(TargetBase::STATE::ALIVE);
 
 	VECTOR twoDPos = ConvWorldPosToScreenPos(trans_.pos);
 	twoDPos.y -= size_.y / 2;

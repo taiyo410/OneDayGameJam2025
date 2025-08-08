@@ -23,11 +23,11 @@ void ResultScene::Init(void)
 	{
 	case SelectScene::SELECT_ID::NOME:
 		break;
-	case SelectScene::SELECT_ID::MULTI:
+	case SelectScene::SELECT_ID::CAN:
 		ruleDraw_ = [this]() {MultiDraw(); };
 		break;
-	case SelectScene::SELECT_ID::ENDLESS:
-		ruleDraw_ = [this]() {EndlessDraw(); };
+	/*case SelectScene::SELECT_ID::ENDLESS:
+		ruleDraw_ = [this]() {EndlessDraw(); };*/
 		break;
 	case SelectScene::SELECT_ID::PANEL:
 		ruleDraw_ = [this]() {PanelDraw(); };

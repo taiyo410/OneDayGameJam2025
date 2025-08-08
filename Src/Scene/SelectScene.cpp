@@ -12,7 +12,7 @@ SelectScene::SelectScene(void)
 {
 	Init();
 	isMultiSelect_ = false;
-	selectId_ = SELECT_ID::MULTI;
+	selectId_ = SELECT_ID::CAN;
 	multiImgScl_ = 0.25f;
 	endlessImgScl_ = 0.25f;
 	panelImgScl_ = 0.25f;
@@ -40,7 +40,7 @@ void SelectScene::Init(void)
 	playerNum_ = PLAYER_MIN;
 	sclTime_ = 0.0f;
 	isMultiSelect_ = false;
-	selectId_ = SELECT_ID::MULTI;
+	selectId_ = SELECT_ID::CAN;
 }
 
 void SelectScene::Update(void)
@@ -49,7 +49,7 @@ void SelectScene::Update(void)
 	if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_SPACE))
 	{
 		//選択されたIDに応じてシーンを変更
-		if(selectId_ == SELECT_ID::MULTI&&!isMultiSelect_)
+		if (!isMultiSelect_)
 		{
 			isMultiSelect_ = true;
 			return;
@@ -61,20 +61,21 @@ void SelectScene::Update(void)
 		}
 	}
 
+	//プレイ人数設定
 	if (isMultiSelect_)
 	{
 		if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_LEFT))
 		{
-			if(playerNum_ > PLAYER_MIN)
+			if (playerNum_ > PLAYER_MIN)
 			{
 				playerNum_--;
 			}
-			else if(playerNum_)
+			else if (playerNum_)
 			{
 				playerNum_ = PLAYER_MAX;
 			}
 		}
-		else if(InputManager::GetInstance().IsTrgDown(KEY_INPUT_RIGHT))
+		else if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_RIGHT))
 		{
 			if (playerNum_ < PLAYER_MAX)
 			{
@@ -90,7 +91,7 @@ void SelectScene::Update(void)
 			isMultiSelect_ = false;
 			return;
 		}
-		if(InputManager::GetInstance().IsTrgDown(KEY_INPUT_SPACE))
+		if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_SPACE))
 		{
 			DataBank::GetInstance().SetPlayerNum(playerNum_);
 			SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME);
@@ -104,7 +105,7 @@ void SelectScene::Update(void)
 	int selectIdCnt_ = static_cast<int>(selectId_);
 
 	if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_DOWN)
-		&& selectIdCnt_ < 3)
+		&& selectIdCnt_ < 2)
 	{
 		selectIdCnt_++;
 	}
@@ -119,7 +120,7 @@ void SelectScene::Update(void)
 	selectId_ = newselectId;
 
 
-	if(selectId_ == SELECT_ID::MULTI)
+	if (selectId_ == SELECT_ID::CAN)
 	{
 		multiImgScl_ = (std::sin(sclTime_) * 0.5f + 0.5f) * (1.8f - 1.5f) + 1.5f;
 		multiImgScl_ *= 0.25f;
@@ -133,12 +134,12 @@ void SelectScene::Update(void)
 		sclTime_ += 0.05f;
 	}
 
-	if (selectId_ == SELECT_ID::ENDLESS)
+	/*if (selectId_ == SELECT_ID::ENDLESS)
 	{
 		endlessImgScl_ = (std::sin(sclTime_) * 0.5f + 0.5f) * (1.8f - 1.5f) + 1.5f;
 		endlessImgScl_ *= 0.25f;
 		sclTime_ += 0.05f;
-	}
+	}*/
 }
 
 void SelectScene::Draw(void)
@@ -153,7 +154,7 @@ void SelectScene::Draw(void)
 	if (!isMultiSelect_)
 	{
 		DrawRotaGraph(basePos.x, basePos.y - 170, multiImgScl_, 0.0f, multiImg_, true);
-		DrawRotaGraph(basePos.x, basePos.y, endlessImgScl_, 0.0f, endlessImg_, true);
+		//DrawRotaGraph(basePos.x, basePos.y, endlessImgScl_, 0.0f, endlessImg_, true);
 		DrawRotaGraph(basePos.x, basePos.y + 170, panelImgScl_, 0.0f, panelImg_, true);
 	}
 	else

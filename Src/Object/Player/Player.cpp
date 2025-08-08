@@ -11,7 +11,7 @@ Player::Player(const int _playerNo)
 	: playerNo_(_playerNo)
 {
 	point_ = 0;
-	joyPadNo_ = static_cast<InputManager::JOYPAD_NO>(static_cast<int>(InputManager::JOYPAD_NO::PAD1)+playerNo_); // デフォルトのジョイパッド番号を設定
+	joyPadNo_ = static_cast<InputManager::JOYPAD_NO>(static_cast<int>(InputManager::JOYPAD_NO::PAD1) + playerNo_); // デフォルトのジョイパッド番号を設定
 }
 
 Player::~Player(void)
@@ -22,15 +22,17 @@ Player::~Player(void)
 void Player::Init(void)
 {
 	reticleHndle_ = LoadGraph((Application::PATH_IMAGE + "crosshair184.png").c_str());
-	reticlePos_ = { 0,0 };
 
 	typeUpdate_ = std::bind(&Player::UpdateMouse, this);
 
 	auto& ins = InputManager::GetInstance();
 	Vector2 moPos = ins.GetMousePos();
 	agoMousePos_ = moPos;
+	reticlePos_ = moPos;
+	reticlePos_.x += playerNo_ * 300.0f;
 
 	isAttrck_ = false;
+	isClick_ = false;
 }
 
 void Player::Update(void)
@@ -46,11 +48,18 @@ void Player::Update(void)
 
 void Player::Draw(void)
 {
-	DrawRotaGraph(reticlePos_.x+playerNo_*300.0f, reticlePos_.y, 1.0f, 0.0f, reticleHndle_, true);
+	DrawRotaGraph(reticlePos_.x, reticlePos_.y, 1.0f, 0.0f, reticleHndle_, true);
 
-	DrawFormatString(100, 100, 0xffffff, "%d", point_);
+}
+
+void Player::DrawUI(int i)
+{
+	Application::SCREEN_SIZE_Y / 2;
+
+	DrawFormatString(100, 100 + i * 20, 0xffffff, "%d", isAttrck_);
+	DrawFormatString((Application::SCREEN_SIZE_Y / 2 - 300) + i * 150, Application::SCREEN_SIZE_Y - 30, 0xffffff, "%d", point_);
 	//DrawFormatString(100, 500, 0xffffff, "%d,%d", reticlePos_.x, reticlePos_.y);
-	DrawFormatString(100, 500, 0xffffff, "%d,%d", reticlePos_.x, reticlePos_.y);
+	DrawFormatString(100, 500 + i * 20, 0xffffff, "%2.f,%2.f", reticlePos_.x, reticlePos_.y);
 }
 
 void Player::Release(void)
@@ -59,9 +68,9 @@ void Player::Release(void)
 
 void Player::AddPoint(int point)
 {
-	if (point_+point<=0)
+	if (point_ + point <= 0)
 	{
-		point_ = 0; 
+		point_ = 0;
 		return; //ポイントが0以下にならないようにする
 	}
 	point_ += point;
@@ -79,7 +88,7 @@ void Player::UpdateMouse(void)
 
 	//移動前のレティクル位置を保存
 	reticlePrePos_ = reticlePos_;
-	
+
 	// 左スティックの横軸取得
 	const auto& leftStickX = ins.GetJPadInputState(joyPadNo_).AKeyLX;
 	// 左スティックの縦軸取得
@@ -92,11 +101,11 @@ void Player::UpdateMouse(void)
 		typeUpdate_ = std::bind(&Player::UpdateController, this);
 		return;
 	}
-	
+
 	reticlePos_ = moPos;
 	MoveReticle();
 	//攻撃
-	if (ins.IsClickMouseLeft())
+	if (ins.IsClickMouseLeft() && !isClick_)
 	{
 		isAttrck_ = true;
 	}
@@ -105,6 +114,7 @@ void Player::UpdateMouse(void)
 		isAttrck_ = false;
 	}
 
+	isClick_ = ins.IsClickMouseLeft();
 }
 void Player::UpdateController(void)
 {
@@ -120,7 +130,7 @@ void Player::UpdateController(void)
 	//移動前のレティクル位置を保存
 	reticlePrePos_ = reticlePos_;
 	MoveReticle();
-	InputManager::JOYPAD_NO jno = static_cast<InputManager::JOYPAD_NO>(DX_INPUT_PAD1);
+	InputManager::JOYPAD_NO jno = static_cast<InputManager::JOYPAD_NO>(joyPadNo_);
 
 	//攻撃
 	if (ins.IsPadBtnTrgDown(jno, InputManager::JOYPAD_BTN::RIGHT))
@@ -136,8 +146,8 @@ void Player::UpdateController(void)
 void Player::MoveReticle(void)
 {
 	//パッドの状態取得
-	int padState = GetJoypadInputState(DX_INPUT_PAD1);
-	InputManager::JOYPAD_NO jno = static_cast<InputManager::JOYPAD_NO>(DX_INPUT_PAD1);
+	int padState = GetJoypadInputState(playerNo_);
+	InputManager::JOYPAD_NO jno = static_cast<InputManager::JOYPAD_NO>(joyPadNo_);
 	// 左スティックの横軸取得
 	const auto& leftStickX = InputManager::GetInstance().GetJPadInputState(jno).AKeyLX;
 	// 左スティックの縦軸取得
@@ -162,15 +172,15 @@ void Player::MoveReticle(void)
 	reticlePos_.x += moveDir.x;
 	reticlePos_.y += moveDir.y;
 
-	LimitReticle();
+	//LimitReticle();
 }
 
 void Player::LimitReticle(void)
 {
-	if (reticlePos_.x < RETICLE_HALF_SIZE|| reticlePos_.x > Application::SCREEN_SIZE_X-RETICLE_HALF_SIZE
-		||reticlePos_.y< RETICLE_HALF_SIZE|| reticlePos_.y > Application::SCREEN_SIZE_Y - RETICLE_HALF_SIZE)
+	if (reticlePos_.x < RETICLE_HALF_SIZE || reticlePos_.x > Application::SCREEN_SIZE_X - RETICLE_HALF_SIZE
+		|| reticlePos_.y< RETICLE_HALF_SIZE || reticlePos_.y > Application::SCREEN_SIZE_Y - RETICLE_HALF_SIZE)
 	{
-		reticlePos_=reticlePrePos_;
+		reticlePos_ = reticlePrePos_;
 	}
 }
 

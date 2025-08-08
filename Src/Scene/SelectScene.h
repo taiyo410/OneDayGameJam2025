@@ -9,8 +9,7 @@ public:
 	enum class SELECT_ID
 	{
 		NOME,
-		MULTI,
-		ENDLESS,
+		CAN,
 		PANEL
 	};
 
@@ -34,7 +33,7 @@ private:
 	static constexpr int PLAYER_MAX = 4; 
 
 	//プレイヤー人数最小人数
-	static constexpr int PLAYER_MIN = 2;
+	static constexpr int PLAYER_MIN = 1;
 	//セレクト
 	SELECT_ID selectId_;
 

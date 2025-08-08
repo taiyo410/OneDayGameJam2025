@@ -51,32 +51,24 @@ void GameScene::Init(void)
 	effec_ = std::make_unique<EffectController>();
 	effec_->Add(0, (Application::PATH_EFFECT + "Hit.efkefc"));
 
-	
-#ifdef _DEBUG
-
-
-
-
-#endif // _DEBUG
-	
-#ifdef NDEBUG 
-	// 処理
-	float posX = -500.0f;
-	for (int i = 0; i < 5; i++)
-	{
-		auto target = std::make_unique<PanelTarget>();
-		target->Init();
-		target->SetPos({ posX + i * 250.0f, 0.0f,150.0f });
-		targets_.push_back(std::move(target));
-	}
-
-	
-#endif // NDEBUG
+//	
+//	
+//#ifdef NDEBUG 
+//	// 処理
+//	float posX = -500.0f;
+//	for (int i = 0; i < 5; i++)
+//	{
+//		auto target = std::make_unique<PanelTarget>();
+//		target->Init();
+//		target->SetPos({ posX + i * 250.0f, 0.0f,150.0f });
+//		targets_.push_back(std::move(target));
+//	}
+//
+//	
+//#endif // NDEBUG
 
 	// マウスを非表示状態にする
 	SetMouseDispFlag(false);
-	//modeUpdate_ = std::bind(&GameScene::PannelRule, this);
-	//modeUpdate_ = std::bind(&GameScene::PannelRule, this);
 }
 
 void GameScene::Update(void)
@@ -124,15 +116,18 @@ void GameScene::Draw(void)
 	}
 
 
-#ifdef NDEBUG
+	if ( DataBank::GetInstance().GetSelectId() == SelectScene::SELECT_ID::PANEL)
+	{
+		MV1DrawModel(fenceModel_);
+	}
 
-	MV1DrawModel(fenceModel_);
-
-#endif // NDEBUG
-
+	int i = 0;
 	for (auto& player : players_)
 	{
 		player->Draw();
+		player->DrawUI(i);
+
+		i++;
 	}
 
 	DrawLine(Application::SCREEN_SIZE_X / 2, 0, Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y, 0x00ff00);
@@ -202,6 +197,8 @@ void GameScene::PannelRule()
 		}
 	}
 
+	//ゲーム終了処理
+
 }
 //缶ゲームモード
 void GameScene::CanRule()
@@ -209,19 +206,21 @@ void GameScene::CanRule()
 	auto& ins = InputManager::GetInstance();
 	Vector2 moPos = ins.GetMousePos();
 
-	bool isWipeOut = true;
 	for (auto& target : targets_)
 	{
 		target->Update();
 
-		//ターゲットが全滅しているか
-		if (target->IsState(TargetBase::STATE::ALIVE))
-		{
-			isWipeOut = false;
-		}
-
 		for (auto& player : players_)
 		{
+			if (target->IsState(TargetBase::STATE::POP_DOWN))
+			{
+				if (target->GetId() == player->GetId())//ポイント加算
+				{
+					player->AddPoint(SUB_POINT);
+				}
+				target->ChangeState(TargetBase::STATE::DEATH);
+			}
+
 			if (player->IsAttrck() && target->InRange(player->GetReticle()))
 			{
 				//衝突
@@ -231,9 +230,13 @@ void GameScene::CanRule()
 
 
 				//ポイント計算
-				if (target->IsScore())//ポイント加算
+				if (target->GetId()== player->GetId())//ポイント加算
 				{
 					player->AddPoint(ADD_POINT);
+				}
+				else if (target->GetId()!= player->GetId())//ポイント減算
+				{
+					player->AddPoint(SUB_POINT);
 				}
 
 			}
@@ -243,15 +246,17 @@ void GameScene::CanRule()
 
 }
 
+//SceneManagerの変数でゲームシーンを設定
 void GameScene::InitPlayerAndTarget(void)
 {
 	SelectScene::SELECT_ID selectId = DataBank::GetInstance().GetSelectId();
 	float posX = -500.0f;
+	//セレクトシーンの選択
 	switch (selectId)
 	{
 	case SelectScene::SELECT_ID::NOME:
 		break;
-	case SelectScene::SELECT_ID::MULTI:
+	case SelectScene::SELECT_ID::CAN://マルチモード（缶）
 	{
 		//プレイヤー人数の取得
 		int pNum = DataBank::GetInstance().GetPlayerNum();
@@ -259,36 +264,36 @@ void GameScene::InitPlayerAndTarget(void)
 		{
 			auto player = std::make_unique<Player>(i);
 			player->Init();
-			players_.push_back(std::move(player));
-		}
-		for (int i = 0; i < pNum; i++)
-		{
-			auto target = std::make_unique<CanTarget>();
+
+			auto target = std::make_unique<CanTarget>(player);
 			target->Init();
+			target->SetHost(player->GetId());
 			target->SetPos({ posX + i * 250.0f, 0.0f,150.0f });
+
+			players_.push_back(std::move(player));
 			targets_.push_back(std::move(target));
 		}
 		modeUpdate_ = std::bind(&GameScene::CanRule, this);
 	}
 	break;
-	case SelectScene::SELECT_ID::ENDLESS:
-		for (int i = 0; i < 1; i++)
-		{
-			auto player = std::make_unique<Player>(i);
-			player->Init();
-			players_.push_back(std::move(player));
-		}
+	//case SelectScene::SELECT_ID::ENDLESS://ソロモード（缶）
+	//	for (int i = 0; i < 1; i++)
+	//	{
+	//		auto player = std::make_unique<Player>(i);
+	//		player->Init();
 
-		for (int i = 0; i < 1; i++)
-		{
-			auto target = std::make_unique<CanTarget>();
-			target->Init();
-			target->SetPos({ posX + i * 250.0f, 400.0f,150.0f });
-			targets_.push_back(std::move(target));
-		}
-		modeUpdate_ = std::bind(&GameScene::CanRule, this);
+	//		auto target = std::make_unique<CanTarget>(player);
+	//		target->Init();
+	//		target->SetHost(player->GetId());
+	//		target->SetPos({ posX + i * 250.0f, 400.0f,150.0f });
+
+	//		players_.push_back(std::move(player));
+
+	//		targets_.push_back(std::move(target));
+	//	}
+	//	modeUpdate_ = std::bind(&GameScene::CanRule, this);
 		break;
-	case SelectScene::SELECT_ID::PANEL:
+	case SelectScene::SELECT_ID::PANEL://ソロモード（パネル）
 		for (int i = 0; i < 1; i++)
 		{
 			auto player = std::make_unique<Player>(i);
@@ -307,4 +312,7 @@ void GameScene::InitPlayerAndTarget(void)
 	default:
 		break;
 	}
+
+	//ゲーム終了処理
+
 }

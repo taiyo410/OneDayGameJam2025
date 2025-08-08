@@ -15,6 +15,7 @@ public:
 	void Init(void);
 	void Update(void);
 	void Draw(void);
+	void DrawUI(int i);
 	void Release(void);
 
 	const Vector2F GetReticle(void)const { return reticlePos_; }
@@ -22,6 +23,8 @@ public:
 
 	//ポイント取得
 	const int GetPoint(void)const { return point_; }
+
+	const int GetId(void)const { return playerNo_; }
 
 	void AddPoint(int point);
 
@@ -45,6 +48,8 @@ private:
 	//操作方法別の更新
 	std::function<void(void)> typeUpdate_;
 	bool isAttrck_;
+
+	bool isClick_;
 
 	void UpdateMouse(void);
 	void UpdateController(void);

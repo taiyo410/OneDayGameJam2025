@@ -50,6 +50,9 @@ public:
 
 	const VECTOR GetCenter(void);
 
+	const int GetId(void)const { return playerId_; }
+
+
 protected:
 
 	Vector2 size_;	
@@ -62,5 +65,7 @@ protected:
 	float limitTime_;
 	float stepTime_;
 
-	
+	//ä ÉÇÅ[Ç≈égóp
+	int playerId_;
+
 };

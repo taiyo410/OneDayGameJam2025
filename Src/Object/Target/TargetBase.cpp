@@ -14,6 +14,8 @@ TargetBase::TargetBase(void)
 	stepTime_ = 0.0f;
 
 	isScorePlus_ = false;
+
+	playerId_ = -1;
 }
 
 TargetBase::~TargetBase(void)
@@ -96,8 +98,8 @@ void TargetBase::Draw(void)
 
 	DrawFormatString(100, 16, 0x000000, "%2.f,%2.f,%2.f", twoDPos.x, twoDPos.y, twoDPos.z);
 
-	DrawFormatString(twoDPos.x, 500, 0xffffff, "%2.f", twoDPos.x);
-	DrawFormatString(twoDPos.x, 516, 0xffffff, "%2.f", twoDPos.y);
+	DrawFormatString(twoDPos.x, 500, 0xffffff, "%.2f", twoDPos.x);
+	DrawFormatString(twoDPos.x, 516, 0xffffff, "%.2f", twoDPos.y);
 	DrawFormatString(twoDPos.x, 532, 0xffffff, "%.2f", stepTime_);
 }
 
