@@ -4,6 +4,8 @@
 #include "../../Manager/SceneManager.h"
 #include "../../Manager/Camera.h"
 
+#include "../Player/Player.h"
+
 #include "CanTarget.h"
 
 CanTarget::CanTarget(std::unique_ptr<Player>& player):player_(player)
@@ -17,7 +19,21 @@ CanTarget::~CanTarget(void)
 
 void CanTarget::Init(void)
 {
-	trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Can/Can.mv1").c_str());
+	switch(player_->GetId())
+	{
+	case 0:
+		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Can/Red.mv1").c_str());
+		break;
+	case 1:
+		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Can/Bule.mv1").c_str());
+		break;
+	case 2:
+		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Can/Yellow.mv1").c_str());
+		break;
+	case 3:
+		trans_.modelId = MV1LoadModel((Application::PATH_MODEL + "Can/Green.mv1").c_str());
+		break;
+	}
 
 	trans_.scl = VScale(AsoUtility::VECTOR_ONE, 0.1f);
 	// èâä˙ç¿ïW
@@ -100,7 +116,8 @@ void CanTarget::Update(void)
 void CanTarget::Draw(void)
 {
 	MV1DrawModel(trans_.modelId);
-
+	
+	return;
 	VECTOR twoDPos = ConvWorldPosToScreenPos(trans_.pos);
 	Vector2 start = Vector2(twoDPos.x - size_.x / 2, twoDPos.y - size_.y);
 	Vector2 end = Vector2(twoDPos.x + size_.x / 2, twoDPos.y);

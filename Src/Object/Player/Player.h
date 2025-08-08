@@ -1,5 +1,6 @@
 #pragma once
 #include<functional>
+#include "../../Manager/InputManager.h"
 
 class Player
 {
