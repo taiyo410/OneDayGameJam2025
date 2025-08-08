@@ -49,7 +49,7 @@ void GameScene::Init(void)
 	InitPlayerAndTarget();
 
 	effec_ = std::make_unique<EffectController>();
-	effec_->Add(0, (Application::PATH_EFFECT + "Hit.efkefc"));
+	effec_->Add(0, (Application::PATH_EFFECT + "3DBlastEffect.efkefc"));
 
 //	
 //	
