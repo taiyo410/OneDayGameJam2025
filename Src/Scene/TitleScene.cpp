@@ -2,6 +2,8 @@
 #include "../Manager/SceneManager.h"
 #include "../Manager/InputManager.h"
 #include "../Manager/ResourceManager.h"
+#include "../Manager/SoundManager.h"
+
 #include "../Application.h"
 #include "TitleScene.h"
 #include <cmath>
@@ -52,7 +54,8 @@ TitleScene::TitleScene(void)
 
 TitleScene::~TitleScene(void)
 {
-	
+	SoundManager::GetInstance().AllStop();
+
 }
 
 void TitleScene::Init(void)
@@ -78,12 +81,15 @@ void TitleScene::Init(void)
 	//ボタン画像ロード
 	buttonImg_ = res.Load(ResourceManager::SRC::PUSH_BUTTON).handleId_;
 
+	SoundManager::GetInstance().Play(SoundManager::SRC::TITLE_BGM, Sound::TIMES::LOOP);
+
 }
 
 void TitleScene::Update(void)
 {
 	if (InputManager::GetInstance().IsTrgDown(KEY_INPUT_SPACE))
 	{
+		SoundManager::GetInstance().Play(SoundManager::SRC::ENTER, Sound::TIMES::ONCE);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::SELECT);
 	}
 

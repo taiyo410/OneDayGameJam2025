@@ -22,36 +22,29 @@ void SoundManager::Init(void)
 {
 	Sound res;
 
-	/*res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "TitleBGM.mp3");
-	res.ChengeMaxVolume(0.8f);
-	soundMap_.emplace(SRC::TITLE_BGM, res);
-
-	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "SelectBGM.mp3");
-	res.ChengeMaxVolume(1.0f);
-	soundMap_.emplace(SRC::SELECT_BGM, res);
-	*/
-
 	//バトルＢＧＭ
-	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "game_bgm.mp3");
-	res.ChengeMaxVolume(0.4f);
+ 	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "TitleBGM.mp3");
+	res.ChengeMaxVolume(0.6f);
+	soundMap_.emplace(SRC::TITLE_BGM, res);
+	
+	//バトルＢＧＭ
+	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "SelectBGM.mp3");
+	res.ChengeMaxVolume(0.6f);
+	soundMap_.emplace(SRC::SELECT_BGM, res);
+	
+	//バトルＢＧＭ
+	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "GameBGM.mp3");
+	res.ChengeMaxVolume(0.8f);
 	soundMap_.emplace(SRC::GAME_BGM, res);
 
-
-
-	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "SowrdDamage.mp3");//今回使うのはこれ
-	res.ChengeMaxVolume(0.6f);
-	
-	//コネクトシーンで使用
-	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "Conect/Start.mp3");
-	res.ChengeMaxVolume(0.8f);
 
 
 	//SESelect.mp3
 	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "Deffult/Select.mp3");
 	res.ChengeMaxVolume(1.0f);
 	soundMap_.emplace(SRC::SELECT, res);
-	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "Deffult/Enter.mp3");
-	res.ChengeMaxVolume(1.0f);
+	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "Click.mp3");
+	res.ChengeMaxVolume(0.6f);
 	soundMap_.emplace(SRC::ENTER, res);
 	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "Deffult/Start.mp3");
 	res.ChengeMaxVolume(0.8f);
@@ -62,7 +55,7 @@ void SoundManager::Init(void)
 
 	//あたった時の音
  	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "Hit.mp3");
-	res.ChengeMaxVolume(0.2f);
+	res.ChengeMaxVolume(0.8f);
 	soundMap_.emplace(SRC::HIT, res);
 	
 

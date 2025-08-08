@@ -64,10 +64,11 @@ void Application::Init(void)
 	ResourceManager::CreateInstance();
 	ResourceManager::GetInstance().Init();
 
-	SceneManager::CreateInstance();
-	InputManager::CreateInstance();
 	SoundManager::CreateInstance();
 	SoundManager::GetInstance().Init();
+
+	SceneManager::CreateInstance();
+	InputManager::CreateInstance();
 
 
 

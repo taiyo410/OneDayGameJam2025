@@ -61,6 +61,7 @@ std::vector<int> DataBank::GetPlayerScores(void)
 
 void DataBank::SetPlayerScores(const std::vector<int> _playerScores)
 {
+	playerScores_.clear();
 	playerScores_ = _playerScores;
 }
 

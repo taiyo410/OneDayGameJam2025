@@ -30,7 +30,7 @@ private:
 	static constexpr int ADD_POINT = 2;
 
 	//Œ¸‚ç‚·ƒ|ƒCƒ“ƒg
-	static constexpr int SUB_POINT = -1;
+	static constexpr int SUB_POINT = -10;
 	//”wŒi
 	int fenceModel_;
 	int backGroundImg_;
@@ -42,6 +42,9 @@ private:
 	std::vector<std::unique_ptr<TargetBase>> targets_;
 
 	std::unique_ptr<EffectController> effec_;
+
+	//ƒQ[ƒ€ŠÔ
+	float limitTime_;
 
 	void PannelRule();
 	void CanRule();
