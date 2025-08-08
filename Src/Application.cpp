@@ -4,6 +4,7 @@
 #include "Manager/SceneManager.h"
 #include "Manager/InputManager.h"
 #include "Manager/ResourceManager.h"
+#include "Manager/SoundManager.h"
 
 #include "./FpsControl/FpsControl.h"
 #include "Application.h"
@@ -13,6 +14,7 @@ Application* Application::instance_ = nullptr;
 const std::string Application::PATH_IMAGE = "Data/Image/";
 const std::string Application::PATH_MODEL = "Data/Model/";
 const std::string Application::PATH_EFFECT = "Data/Effect/";
+const std::string Application::PATH_SOUND = "Data/Sound/";
 const std::string Application::PATH_OBJECT = "Data/Image/Object/";
 
 void Application::CreateInstance(void)
@@ -64,6 +66,8 @@ void Application::Init(void)
 
 	SceneManager::CreateInstance();
 	InputManager::CreateInstance();
+	SoundManager::CreateInstance();
+	SoundManager::GetInstance().Init();
 
 
 
@@ -109,6 +113,7 @@ void Application::Destroy(void)
 	SceneManager::GetInstance().Destroy();
 	InputManager::GetInstance().Destroy();
 	ResourceManager::GetInstance().Release();
+	SoundManager::GetInstance().Destroy();
 
 	delete instance_;
 

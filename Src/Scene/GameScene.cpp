@@ -3,6 +3,7 @@
 #include "../Manager/SceneManager.h"
 #include "../Manager/InputManager.h"
 #include "../Manager/ResourceManager.h"
+#include "../Manager/SoundManager.h"
 
 #include "../Manager/Camera.h"
 #include "../Manager/DataBank.h"
@@ -28,11 +29,17 @@ GameScene::~GameScene(void)
 {
 	DeleteGraph(backGroundImg_);
 	MV1DeleteModel(fenceModel_);
+
+	SoundManager::GetInstance().AllStop();
+
 }
 
 void GameScene::Init(void)
 {
 	SceneManager::GetInstance().GetCamera().lock()->ChangeMode(Camera::MODE::FIXED_POINT);
+
+	SoundManager::GetInstance().Play(SoundManager::SRC::GAME_BGM, Sound::TIMES::LOOP);
+
 
 	//リソースマネージャのインスタンス 
 	ResourceManager& res = ResourceManager::GetInstance();
@@ -80,7 +87,7 @@ void GameScene::Init(void)
 
 	// マウスを非表示状態にする
 	SetMouseDispFlag(false);
-	modeUpdate_ = std::bind(&GameScene::PannelRule, this);
+	//modeUpdate_ = std::bind(&GameScene::PannelRule, this);
 	//modeUpdate_ = std::bind(&GameScene::PannelRule, this);
 }
 
@@ -122,7 +129,7 @@ void GameScene::Draw(void)
 	}
 
 
-#ifdef _DEBUG
+#ifdef NDEBUG
 
 	MV1DrawModel(fenceModel_);
 
@@ -173,10 +180,16 @@ void GameScene::PannelRule()
 				//ポイント計算
 				if (target->IsScore())//ポイント加算
 				{
+					SoundManager::GetInstance().Play(SoundManager::SRC::HIT, Sound::TIMES::ONCE, true);
+
+
 					player->AddPoint(1);
 				}
 				else if (!target->IsScore())//ポイント減算
 				{
+					SoundManager::GetInstance().Play(SoundManager::SRC::HIT, Sound::TIMES::ONCE, true);
+
+
 					player->AddPoint(-2);
 				}
 
@@ -220,6 +233,8 @@ void GameScene::CanRule()
 				//衝突
 				target->Hit(player->GetReticle());
 				effec_->Play(0, target->GetCenter(), { 0.0f,0.0f,0.0f }, 10.0f);
+				SoundManager::GetInstance().Play(SoundManager::SRC::HIT, Sound::TIMES::ONCE, true);
+
 
 				//ポイント計算
 				if (target->IsScore())//ポイント加算

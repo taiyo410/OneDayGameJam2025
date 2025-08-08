@@ -32,35 +32,18 @@ void SoundManager::Init(void)
 	*/
 
 	//バトルＢＧＭ
-	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "PerituneMaterial_Breakthrough.mp3");
-	res.ChengeMaxVolume(0.6f);
-	soundMap_.emplace(SRC::BATTLE_BGM, res);
+	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "game_bgm.mp3");
+	res.ChengeMaxVolume(0.4f);
+	soundMap_.emplace(SRC::GAME_BGM, res);
 
 
 
 	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "SowrdDamage.mp3");//今回使うのはこれ
 	res.ChengeMaxVolume(0.6f);
-	soundMap_.emplace(SRC::SLASH_DAMAGE, res);
-	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "BowDamage.mp3");//今回使うのはこれ
-	res.ChengeMaxVolume(0.6f);
-	soundMap_.emplace(SRC::SHOT_DAMAGE, res);
-
-	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "Chage.mp3");
-	res.ChengeMaxVolume(1.0f);
-	soundMap_.emplace(SRC::CHAGE, res);
 	
 	//コネクトシーンで使用
 	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "Conect/Start.mp3");
 	res.ChengeMaxVolume(0.8f);
-	soundMap_.emplace(SRC::CONECT_START, res);
-	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "Conect/Add.mp3");
-	res.ChengeMaxVolume(0.8f);
-	soundMap_.emplace(SRC::ADD, res);
-
-	//ゲームシーンで使用
-	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "Game/RockOn.mp3");
-	res.ChengeMaxVolume(1.0f);
-	soundMap_.emplace(SRC::LOCKON, res);
 
 
 	//SESelect.mp3
@@ -75,11 +58,12 @@ void SoundManager::Init(void)
 	soundMap_.emplace(SRC::START, res);
 	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "Deffult/GameStart.mp3");
 	res.ChengeMaxVolume(0.6f);
-	soundMap_.emplace(SRC::GAME_START, res);
-	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "Deffult/StartVose.mp3");
-	res.ChengeMaxVolume(1.0f);
-	soundMap_.emplace(SRC::VOICE, res);
+	
 
+	//あたった時の音
+ 	res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "Hit.mp3");
+	res.ChengeMaxVolume(0.2f);
+	soundMap_.emplace(SRC::HIT, res);
 	
 
 	//res = Sound(Sound::TYPE::SOUND_2D, Application::PATH_SOUND + "TitleBGM.mp3");
