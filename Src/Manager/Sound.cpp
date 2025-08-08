@@ -171,7 +171,7 @@ void Sound::ChengeVolume(float per)
 void Sound::ChengeMaxVolume(float per)
 {
 	maxVolume_ = 255 * per;
-	ChengeVolume(1.0f);
+	ChengeVolume(per);
 }
 
 //ƒ|[ƒYˆê’â~(–¢Š®¬)

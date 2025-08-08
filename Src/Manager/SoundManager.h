@@ -13,28 +13,14 @@ public:
 		//
 		//RESULT_BGM,		//リザルトシーンのBGM
 
-		BATTLE_BGM,
+		GAME_BGM,
 		
-		SLASH_DAMAGE,
-		SHOT_DAMAGE,
-		CHAGE,
-		
-		//コネクトシーンで使用
-		CONECT_START,
-		ADD,
-
-		//ゲームシーンで使用
-		LOCKON,
-
 		//SE
 		SELECT,
 		ENTER,
 		START,
-		GAME_START,
-		VOICE,
-
-		MOVE,
-		REMOVE,
+		
+		HIT,
 	};
 
 	// 明示的にインステンスを生成する

@@ -104,7 +104,7 @@ void SceneManager::Init3D(void)
 	SetUseLighting(true);
 
 	// ƒ‰ƒCƒg‚Ìİ’è
-	ChangeLightTypeDir({ 0.3f, -0.7f, 0.8f });
+	ChangeLightTypeDir({ 0.0f, 0.2f, 0.8f });
 	//ChangeLightTypePoint({ 0.0f, -100.0f, 0.0f },20000.0f, 0.0f, 0.0006f, 0.0f);
 
 
