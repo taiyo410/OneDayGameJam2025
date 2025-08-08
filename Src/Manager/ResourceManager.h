@@ -38,6 +38,14 @@ public:
 		NUMBER_IMG,
 		PLAYER_SELECT_NUM_IMG,
 
+		//リザルトシーン画像
+		SCORE,
+		WIN,
+		PLYER_AKA,
+		PLYER_AO,
+		PLYER_KI,
+		PLYER_MIDORI,
+
 
 	};
 

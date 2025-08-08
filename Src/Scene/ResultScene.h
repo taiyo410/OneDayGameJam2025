@@ -20,11 +20,20 @@ public:
 
 private:
 	void MultiDraw(void);
-	void EndlessDraw(void);
 	void PanelDraw(void);
 
 	int backImg_;
 	int* numbersImg_;
+
+	int winImg_;
+	int scoreImg_;
+
+	int pAkaImg_;
+	int pAoImg_;
+	int pKiImg_;
+	int pMidoriImg_;
+
+	int winPlyareImg_;
 
 	//Šeƒ‹[ƒ‹‚Ì•`‰æ
 	std::function<void(void)>ruleDraw_;
