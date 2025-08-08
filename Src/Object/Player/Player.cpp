@@ -21,7 +21,23 @@ Player::~Player(void)
 
 void Player::Init(void)
 {
-	reticleHndle_ = LoadGraph((Application::PATH_IMAGE + "crosshair184.png").c_str());
+	//reticleHndle_ = LoadGraph((Application::PATH_IMAGE + "crosshair184.png").c_str());
+
+	switch (playerNo_)
+	{
+	case 0:
+		reticleHndle_ = LoadGraph((Application::PATH_IMAGE + "crosshair184_Red.png").c_str());
+		break;
+	case 1:
+		reticleHndle_ = LoadGraph((Application::PATH_IMAGE + "crosshair184_blue.png").c_str());
+		break;
+	case 2:
+		reticleHndle_ = LoadGraph((Application::PATH_IMAGE + "crosshair184_Yellow.png").c_str());
+		break;
+	case 3:
+		reticleHndle_ = LoadGraph((Application::PATH_IMAGE + "crosshair184_Green.png").c_str());
+		break;
+	}
 
 	typeUpdate_ = std::bind(&Player::UpdateMouse, this);
 
